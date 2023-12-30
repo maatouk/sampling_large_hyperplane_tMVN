@@ -1,4 +1,3 @@
-# setwd("~/Documents/Recherche/Article_high-dimensional-hyperplaneMVN_2021/High dimension code/Official_codes")
 library(rSPDE) # matern cov fct
 library(mvtnorm)
 library(FastGP)
