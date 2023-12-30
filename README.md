@@ -18,7 +18,7 @@ ii. The naive Karhunen-Loève Expansion (KLE).
 
 iii. The proposed LS.KLE for drawing very large Gaussian priors.
 
-vi. nu.MH2 for drawing posterior samples of the hyperparameters using the Metropolis–Hastings method and inverse Cholesky factor.
+iv. nu.MH2 for drawing posterior samples of the hyperparameters using the Metropolis–Hastings method and inverse Cholesky factor.
 
 v. LS.KLE_MUR for sampling from large hyperplane-truncated multivariate normal distributions.
 
