@@ -1,10 +1,6 @@
 # sampling large hyperplane truncated MVN distrbution using Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR)
 This repository includes R code for sampling from a high-dimensional hyperplane-truncated multivariate normal distribution using the Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR). Additionally, it provides the "LS.KLE" function for generating a very large Gaussian vector extracted from a stationary Gaussian process.
 
-# References
-Maatouk, H. and Rullière, D. and Bay, X. (2023). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
-
-Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". Journal of Computational and Graphical Statistics. [doi](https://www.jstor.org/stable/1390903)
 
 # Illustrative examples
 [MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/Matern3split5sim-eps-converted-to.pdf): Five GP sample paths when the domain is split into three subdomains. Dashed (resp. solid) curves represent the paths after (resp. before) conditioning. 
@@ -30,3 +26,9 @@ v. LS.KLE_MUR for sampling from large hyperplane-truncated multivariate normal d
 vi. samp.WC for generating Gaussian priors using the Fast Fourier Transform method of Wood and Chan (1994).
 
    For more details on the codes or the functions, refer to the associated R files.
+
+
+# References
+Maatouk, H. and Rullière, D. and Bay, X. (2023). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
+
+Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". Journal of Computational and Graphical Statistics. [doi](https://www.jstor.org/stable/1390903)   
