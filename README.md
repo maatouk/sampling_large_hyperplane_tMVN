@@ -1,4 +1,4 @@
-# sampling large hyperplane truncated MVN distrbution using Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR)
+# Sampling large hyperplane-truncated MVN distrbution using Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR)
 This repository includes R code for sampling from a high-dimensional hyperplane-truncated multivariate normal distribution using the Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR). Additionally, it provides the "LS.KLE" function for generating a very large Gaussian vector extracted from a stationary Gaussian process.
 
 
