@@ -6,7 +6,7 @@ Maatouk, H. and Rullière, D. and Bay, X. (2023). "Sampling large hyperplane‐t
 
 Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". Journal of Computational and Graphical Statistics. [doi](https://www.jstor.org/stable/1390903)
 
-# Images
+# Illustrative examples
 [MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/Matern3split5sim-eps-converted-to.pdf): Five GP sample paths when the domain is split into three subdomains. Dashed (resp. solid) curves represent the paths after (resp. before) conditioning. 
 
 [MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/FFTvsLSKLE-eps-converted-to.pdf): Average time of sampling a MVN over 25 replicates as a function of the dimension N. The proposed approach, LS.KLE, has been compared to the Fast Fourier Transform (FFT) developed in Wood and Chan (1994) 
