@@ -6,6 +6,9 @@ Maatouk, H. and Rullière, D. and Bay, X. (2023). "Sampling large hyperplane‐t
 
 Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". Journal of Computational and Graphical Statistics. [doi](https://www.jstor.org/stable/1390903)
 
+# Images
+[MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/Matern3split5sim-eps-converted-to.pdf)
+
 
 # Description of the associated R files:
 1. 'all_models.R' file contains two models that implement the large hyperplane-truncated multivariate normal distribution with and without hyperparameters updates.
