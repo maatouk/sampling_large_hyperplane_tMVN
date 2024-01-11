@@ -274,11 +274,6 @@ circulant=function(x){
   return(mat)
 }
 
-## Matern kernel with smoothness nu and length-scale l:
-MK = function(x, y ,l, nu){
-  ifelse(abs(x-y)>0, (sqrt(2*nu)*abs(x-y)/l)^nu/(2^(nu-1)*gamma(nu))*besselK(x=abs(x-y)*sqrt(2*nu)/l, nu=nu), 1.0)
-}
-
 
 # Function for forming the vector of circulant matrix:
 circ_vec=function(knot,g,nu,l,tausq){
@@ -295,13 +290,6 @@ circ_vec=function(knot,g,nu,l,tausq){
   return(x)
 }
 
-# Function for finding a g such that C is nnd:
-eig.eval=function(knot,g,nu,l,tausq){
-  vec=circ_vec(knot,g,nu,l,tausq)
-  C=circulant(vec)
-  ev=min(eigen(C)$values)
-  return(list("vec" = vec, "min.eig.val" = ev))
-}
 
 # Function for finding a g such that C is nnd:
 # without forming the circulant matrix and without computing eigen values:
@@ -367,7 +355,7 @@ samp.WC=function(knot,nu,l,tausq,sseedWC=1){
 ## MH algo for \nu and \ell of Matern kernel:
 nu.MH2 = function(nu.in,l.in,tau.in,xi.in,knot,range.nu,range.l,sd.nu,sd.l,seed=1){
   Kmat = kMat(knot,nu.in,l.in)
-  Linv = solve(chol(Kmat+1e-10*diag(nrow(Kmat))))#tinv(Kmat)#inv_chol(Kmat)
+  Linv = solve(chol(Kmat+1e-10*diag(nrow(Kmat))))
   set.seed(seed)
   nu.cand = exp(log(nu.in)+rnorm(1,0,sd.nu))
   l.cand = exp(log(l.in)+rnorm(1,0,sd.l))
@@ -375,7 +363,7 @@ nu.MH2 = function(nu.in,l.in,tau.in,xi.in,knot,range.nu,range.l,sd.nu,sd.l,seed=
   dl = dunif(l.cand,range.l[1],range.l[2])
   if(dnu > 0 && dl > 0){
     Kcand = kMat(knot,nu.cand,l.cand)
-    Linv.cand = solve(chol(Kcand+1e-10*diag(nrow(Kcand))))#tinv(Kcand)#inv_chol(Kcand)
+    Linv.cand = solve(chol(Kcand+1e-10*diag(nrow(Kcand))))
     t1 = sum((t(Linv.cand)%*%xi.in)^2)
     t2 = sum((t(Linv)%*%xi.in)^2)
     r = exp(sum(log(diag(Linv.cand)))-sum(log(diag(Linv)))-((t1 - t2)/(2*tau.in)))*(nu.cand/nu.in)*(l.cand/l.in)
