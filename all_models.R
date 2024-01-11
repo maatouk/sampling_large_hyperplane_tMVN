@@ -134,8 +134,6 @@ LS.KLE.MUR.function=function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.in,
       xi_sam[,(i-brn)/thin]=xi_out
       sig_sam[(i-brn)/thin]=sig
       tau_sam[(i-brn)/thin]=tau
-      # nu_sam[(i-brn)/thin]=nu_out
-      # ell_sam[(i-brn)/thin]=l_out
       fhat_sam[,(i-brn)/thin]= Xxi
     }
     
