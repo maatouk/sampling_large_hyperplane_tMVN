@@ -13,18 +13,18 @@ source('all-fcts.R')
 ## Choice of a numerical example
 ## put 'yes' between quotations
 
-KLEvsLS.KLE=''
-WCvsLS.KLEN='yes'
-WCvsLS.KLEnu=''
-LS.KLE10M=''
-synthetic=''
-ageincome=''
-fossil=''
+KLEvsLS.KLE = ''
+WCvsLS.KLEN = 'yes'
+WCvsLS.KLEnu = ''
+LS.KLE10M = ''
+synthetic = ''
+ageincome = ''
+fossil = ''
 
 
 
 
-if(KLEvsLS.KLE=='yes'){
+if (KLEvsLS.KLE == 'yes'){
   ####################################################
   ####### naive KLE versus Large scale KLE ###########
   ####################################################
@@ -38,9 +38,9 @@ if(KLEvsLS.KLE=='yes'){
   trial <- 25
   timeKLE <- matrix(NA,trial,length(N))
   timeLS.KLE <- matrix(NA,trial,length(N))
-  for(j in 1 : trial){
+  for (j in 1 : trial){
     print(j)
-    for(i in 1 : length(N)){
+    for (i in 1 : length(N)){
       u <- seq(0,1,length=N[i])
       timeLS.KLE[j,i] <- system.time(LS.KLE(u=u,N1=N1,p=p,M=M[i],
                                             nu=nu,l=l,tau=1,tol=1e-12,sseedLS=i))[3]
@@ -59,7 +59,7 @@ if(KLEvsLS.KLE=='yes'){
 }
 
 
-if(WCvsLS.KLEN=='yes'){
+if (WCvsLS.KLEN == 'yes'){
   ####################################################
   ####### Comparison between samp.WC & LS.KLE ########
   ####################################################
@@ -74,9 +74,9 @@ if(WCvsLS.KLEN=='yes'){
   trial <- 25
   timeWC <- matrix(NA,trial,length(N))
   timeLS <- matrix(NA,trial,length(N))
-  for(j in 1 : trial){
+  for (j in 1 : trial){
     print(j)
-    for(i in 1 : length(N)){
+    for (i in 1 : length(N)){
       u <- seq(0,1,length=N[i])
       timeLS[j,i] <- system.time(LS.KLE(u,N1=N1,p,M=M[i],nu=nu,l=l,tau=1,tol=1e-12,sseedLS=i))[3]
       timeWC[j,i] <- system.time(samp.WC(knot=u,nu=nu,l=l,tausq=1,sseedWC=i))[3]
@@ -98,7 +98,7 @@ if(WCvsLS.KLEN=='yes'){
   ####################################################
 }
 
-if(WCvsLS.KLEnu=='yes'){
+if (WCvsLS.KLEnu == 'yes'){
   ### running time as a fct of the smoothness parameter nu 
   par(mar=c(3.1,3.1,1.1,1.1)) # adapt margins
   nu <- seq(0.5,1.5,length=10) # smoothness parameter
@@ -111,9 +111,9 @@ if(WCvsLS.KLEnu=='yes'){
   timeWC <- matrix(NA,length(nu),trial)
   timeLS <- matrix(NA,length(nu),trial)
   u <- seq(0,1,length=N)
-  for(i in 1 : length(nu)){
+  for (i in 1 : length(nu)){
     print(i)
-    for(j in 1 : trial){
+    for (j in 1 : trial){
       timeLS[i,j] <- system.time(LS.KLE(u,N1=N1,p,M=M,nu=nu[i],l=l,tau=1,tol=1e-12,sseedLS=j))[3]
       timeWC[i,j] <- system.time(samp.WC(u,nu=nu[i],l=l,tausq=1,sseedWC=j))[3]
     }
@@ -135,7 +135,7 @@ if(WCvsLS.KLEnu=='yes'){
 }
 
 
-if(LS.KLE10M=='yes'){
+if (LS.KLE10M == 'yes'){
   ####################################################
   ##### Performance Fast.LS with N=10,000,000 #########
   ####################################################
@@ -149,9 +149,9 @@ if(LS.KLE10M=='yes'){
   N <- M*N1 # sizes of the MVN
   trial <- 2#5
   timeLS <- matrix(NA,trial,length(M))
-  for(i in 1 : trial){
+  for (i in 1 : trial){
     print(i)
-    for(j in 1 : length(M)){
+    for (j in 1 : length(M)){
       u <- seq(0,1,length=N[j])
       timeLS[i,j] <- system.time(LS.KLE(u,N1,p,M=M[j],nu=nu,l,tau=1,tol=1e-12,sseedLS=j))[3]
     }
@@ -168,7 +168,7 @@ if(LS.KLE10M=='yes'){
 
 
 
-if(synthetic=='yes'){
+if (synthetic == 'yes'){
   ####################################################
   ############ runing time nonparametric #############
   ################# fct estimation ###################
@@ -199,7 +199,7 @@ if(synthetic=='yes'){
   timeLS <- rep(NA,trial) # run time Large scale
   timeMUR <- rep(NA,trial) # run time naive MUR
   print("MCMC replicates:")
-  for(Q in 1 : trial){
+  for (Q in 1 : trial){
     print(Q)
     set.seed(2*Q)
     ind <- sample.int(ntot,ntr)
@@ -256,7 +256,7 @@ if(synthetic=='yes'){
 
 
 
-if(ageincome=='yes'){
+if (ageincome == 'yes'){
   ####################################################
   ######## Age income real application ###############
   ####################################################
@@ -281,7 +281,7 @@ if(ageincome=='yes'){
   ## split data
   timeLS <- rep(NA,trial) # run time Large scale
   timeMUR <- rep(NA,trial) # run time naive MUR
-  for(Q in 1 : trial){
+  for (Q in 1 : trial){
     print(Q)
     set.seed(2*Q)
     ind <- sample.int(ntot,ntr)
@@ -335,7 +335,7 @@ if(ageincome=='yes'){
 
 
 
-if(fossil=='yes'){
+if (fossil == 'yes'){
   ####################################################
   ######## Fossil data real application ###############
   ####################################################
@@ -360,7 +360,7 @@ if(fossil=='yes'){
   ## split data
   timeLS <- rep(NA,trial) # run time Large scale
   timeMUR <- rep(NA,trial) # run time naive MUR
-  for(Q in 1 : trial){
+  for (Q in 1 : trial){
     print(Q)
     set.seed(2*Q)
     ind <- sample.int(ntot,ntr)
