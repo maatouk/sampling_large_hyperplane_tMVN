@@ -36,7 +36,7 @@ hi <- function(x,u,i){
 fctv <- function(x,u,M,N1){
   n <- length(x)
   v <- matrix(NA, nrow = n, ncol = (M*N1))
-  for(j in 1 : (M*N1)){
+  for (j in 1 : (M*N1)){
     v[, j] = hi(x,u,i=j)
   }
   return(v)
