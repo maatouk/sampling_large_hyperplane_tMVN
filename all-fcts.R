@@ -50,10 +50,10 @@ fctv <- function(x,u,M,N1){
 #####################################################
 KLE <- function(u,p,nu,l,tol){
   N <- length(u)
-  if(missing(tol)){
+  if (missing(tol)){
     tol <- 1e-8
   }
-  Gamma <- kMat(u,nu,l)+tol*diag(N)
+  Gamma <- kMat(u,nu,l) + tol*diag(N)
   eig <- eigen(Gamma)
   value <- eig$values[1:p]
   vector <- eig$vectors[,1:p]
@@ -69,7 +69,7 @@ KLE <- function(u,p,nu,l,tol){
 #####################################################
 KLE_v <- function(nbsim,u,p,nu,l,tol){
   N <- length(u)
-  if(missing(tol)){
+  if (missing(tol)){
     tol <- 1e-8
   }
   Gamma <- kMat(u,nu,l)+tol*diag(N)
@@ -103,7 +103,7 @@ MUR <- function(nbsim,u,A,y,nu,l,sigN,tol){
 ####### function for length-scale estimating ########
 #####################################################
 # function for uniroot:
-fl=function(l,para){ 
+fl <- function(l,para){ 
   #para[1]=x, para[2]=y and para[3]=nu of MK : Matern kernel function;
   #para[4]=pre-specified value of the correlation
   a <- k(abs(para[1]-para[2]),para[3],l)
@@ -111,7 +111,7 @@ fl=function(l,para){
 }
 
 
-l_est=function(nu,range,val){
+l_est <- function(nu,range,val){
   # nu : smoothness; range : c(min, max) of the range of variable
   # val : pre-specified value of the correlation between the maximum seperation
   para <- c(range[1],range[2],nu,val)
@@ -125,23 +125,23 @@ l_est=function(nu,range,val){
 ################ LS KLE one sample #################
 ###################################################
 LS.KLE <- function(u,N1,p,M,nu,l,tau,tol,sseedLS=1){
-  if(missing(tol)){
+  if (missing(tol)){
     tol <- 1e-8
   }
-  if(missing(M)){
-    M=1
+  if (missing(M)){
+    M <- 1
   }
-  if(M==0)
+  if (M == 0)
     stop("M cannot be zero")
-  if(N1==0)
+  if (N1 == 0)
     stop("N1 cannot be zero")
-  if(length(u)!= M*N1)
+  if (length(u) != M*N1)
     stop("The length of the vector u must be M times N1")
   u1 <- u[1:N1]
   u2 <- u[(N1+1):(2*N1)]
   Gamma11 <- tau*kMat(u1,nu,l)+tol*diag(N1)
   set.seed(sseedLS)
-  if(M==1){
+  if (M == 1){
     return(as.vector(mvtnorm::rmvnorm(n=1,mu=rep(0,N1),Gamma11,method='chol')))
   }
   else 
@@ -158,7 +158,7 @@ LS.KLE <- function(u,N1,p,M,nu,l,tau,tol,sseedLS=1){
   f <- matrix(NA,M,N1)
   f[1,] <- vector11%*%(sqrt(value11)*eta[1,])  
   etaT[1,] <- eta[1,]
-  for(i in 2 : M){
+  for (i in 2 : M){
     etaT[i,] <- t(K12)%*%etaT[(i-1),]+L12%*%eta[i,]
     f[i,] <- vector11%*%(sqrt(value11)*etaT[i,])  
   }
@@ -175,26 +175,26 @@ LS.KLE <- function(u,N1,p,M,nu,l,tau,tol,sseedLS=1){
 ###################################################
 
 LS.KLE_v <- function(nbsim,u,N1,p,M,nu,l,tau,tol){
-  if(missing(nbsim)){
+  if (missing(nbsim)){
     nbsim <- 10
   }
-  if(missing(tol)){
+  if (missing(tol)){
     tol <- 1e-8
   }
-  if(missing(M)){
+  if (missing(M)){
     M <- 1
   }
-  if(M==0)
+  if (M == 0)
     stop("M cannot be zero")
-  if(N1==0)
+  if (N1 == 0)
     stop("N1 cannot be zero")
-  if(length(u)!= M*N1)
+  if (length(u) != M*N1)
     stop("The length of the vector u must be M times N1")
   u1 <- u[1:N1]
   u2 <- u[(N1+1):(2*N1)]
   # delta <- 1/(M*(N1-1))
   Gamma11 <- tau*kMat(u1,nu,l)+tol*diag(N1)
-  if(M==1){
+  if (M == 1){
     return(as.vector(mvtnorm::rmvnorm(n=1,mu=rep(0,N1),Gamma11,method='chol')))
   }
   else 
@@ -211,7 +211,7 @@ LS.KLE_v <- function(nbsim,u,N1,p,M,nu,l,tau,tol){
   etaT[[1]] <- eta
   f <- list()
   f[[1]] <- vector11%*%(sqrt(value11)*eta)
-  for(i in 2 : M){
+  for (i in 2 : M){
     eta <- matrnorm(p,nbsim)
     etaT[[i]] <- t(K12)%*%etaT[[i-1]]+L12%*%eta
     f[[i]] <- vector11%*%(sqrt(value11)*etaT[[i]])
@@ -268,7 +268,7 @@ min_g <- function(knot){
 circulant <- function(x){
   n <- length(x)
   mat <- matrix(0, n, n)
-  for (j in 1:n) {
+  for (j in 1 : n) {
     mat[j, ] <- c(x[-(1:(n+1-j))], x[1:(n+1-j)])
   }
   return(mat)
