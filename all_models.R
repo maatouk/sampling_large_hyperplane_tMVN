@@ -96,7 +96,7 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
     print("MCMC sample draws:")
   
   ptm <- proc.time()
-  for(i in 1:em){
+  for (i in 1 : em){
     # sampling Xi:
     y_tilde <- y 
     if (missing(xi.fix)){
