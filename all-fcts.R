@@ -280,8 +280,8 @@ circ_vec <- function(knot,g,nu,l,tausq){
   delta_N <- 1/(length(knot)-1)
   m <- 2**g
   cj <- integer()
-  for(j in 1:m){
-    if(j<=(m/2))
+  for (j in 1 : m){
+    if (j <= (m/2))
       cj[j] <- (j-1)*delta_N
     else
       cj[j] <- (m-(j-1))*delta_N
@@ -305,9 +305,9 @@ C.eval <- function(knot,g,nu,l,tausq){
 nnd_C <- function(knot,g,nu,l,tausq){
   C.vec <- C.eval(knot,g,nu,l,tausq)$vec
   eval <- C.eval(knot,g,nu,l,tausq)$min.eig.val
-  if(eval>0)
+  if (eval > 0)
     return(list("cj" = C.vec,"g" = g))
-  else{
+  else {
     g <- g+1
     nnd_C(knot,g,nu,l,tausq)
   }
@@ -318,7 +318,7 @@ eigval <- function(knot,nu,l,tausq){
   g <- min_g(knot)
   c.j <- nnd_C(knot,g,nu,l,tausq)$cj
   lambda <- Re(fft(c.j))
-  if(min(lambda)>0)
+  if (min(lambda) > 0)
     return(lambda)
   else
     stop("nnd condition is NOT satisfied!!!")
@@ -338,7 +338,7 @@ samp.WC <- function(knot,nu,l,tausq,sseedWC=1){
   a[1] <- sqrt(lambda[1])*rnorm(1)/sqrt(m)
   a[(m/2)+1] <- sqrt(lambda[(m/2)+1])*rnorm(1)/sqrt(m)
   i <- sqrt(as.complex(-1))
-  for(j in 2:(m/2)){
+  for (j in 2 : (m/2)){
     uj <- rnorm(1); vj=rnorm(1)
     a[j] <- (sqrt(lambda[j])*(uj + i*vj))/(sqrt(2*m))
     a[m+2-j] <- (sqrt(lambda[j])*(uj - i*vj))/(sqrt(2*m))
@@ -361,7 +361,7 @@ nu.MH2 <- function(nu.in,l.in,tau.in,xi.in,knot,range.nu,range.l,sd.nu,sd.l,seed
   l.cand <- exp(log(l.in)+rnorm(1,0,sd.l))
   dnu <- dunif(nu.cand,range.nu[1],range.nu[2])
   dl <- dunif(l.cand,range.l[1],range.l[2])
-  if(dnu > 0 && dl > 0){
+  if (dnu > 0 && dl > 0){
     Kcand <- kMat(knot,nu.cand,l.cand)
     Linv.cand <- solve(chol(Kcand+1e-10*diag(nrow(Kcand))))
     t1 <- sum((t(Linv.cand)%*%xi.in)^2)
