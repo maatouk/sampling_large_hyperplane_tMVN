@@ -23,7 +23,7 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
   
   # OUTPUT: Posterior samples on nu,l,xi,tau,sig and fhat with posterior mean, 95% CI of fhat
   
-  if(length(y)!=length(x))
+  if (length(y) != length(x))
     stop("y and x should be of same length!")
   n <- length(y)
   N <- M*N1
@@ -33,21 +33,21 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
   my_knots <- seq(min(x),max(x),by=delta)
   X <- fctv(x,my_knots,M,N1)
   
-  if(missing(return.plot))
+  if (missing(return.plot))
     return.plot <- TRUE
   
-  if(!missing(sseed))
+  if (!missing(sseed))
     set.seed(sseed)
-  if(missing(sseed))
+  if (missing(sseed))
     set.seed(Sys.Date())
   
-  if(missing(verbose))
+  if (missing(verbose))
     verbose <- TRUE
   
-  if(missing(tol))
+  if (missing(tol))
     tol <- 1e-8
   
-  if(missing(l))
+  if (missing(l))
     l <- l_est(nu,c(my_knots[1],my_knots[length(my_knots)]),0.05)
   
   # prior covariance K:
@@ -55,30 +55,30 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
   # prior precision:
   K_inv <- tinv(K)
   
-  if(missing(mcmc))
+  if (missing(mcmc))
     mcmc <- 5000
-  if(missing(brn))
+  if (missing(brn))
     brn <- 1000
-  if(missing(thin))
+  if (missing(thin))
     thin <- 1
-  if(!missing(tau.fix)){
+  if (!missing(tau.fix)){
     tau.in <- tau.fix
     ## Hassan added two lines
     Gamma <- tau.in*K
     GX <- Gamma%*%t(X)
   }
   
-  if(!missing(sig.fix))
+  if (!missing(sig.fix))
     sig.in <- sig.fix
-  if(!missing(xi.fix))
+  if (!missing(xi.fix))
     xi.in <- xi.fix
   
-  if(missing(tau.fix) && missing(tau.in))
+  if (missing(tau.fix) && missing(tau.in))
     tau.in <- 1
-  if(missing(sig.fix) && missing(sig.in))
+  if (missing(sig.fix) && missing(sig.in))
     sig.in <- 1
   
-  if(missing(xi.fix) && missing(xi.in))
+  if (missing(xi.fix) && missing(xi.in))
     xi.in <- mvrnorm(1,rep(0,N),K)
   
   tau <- tau.in
@@ -92,28 +92,28 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
   sig_sam <- rep(NA,ef)
   fhat_sam <- matrix(NA,n,ef)
   
-  if(verbose)
+  if (verbose)
     print("MCMC sample draws:")
   
   ptm <- proc.time()
   for(i in 1:em){
     # sampling Xi:
     y_tilde <- y 
-    if(missing(xi.fix)){
+    if (missing(xi.fix)){
       fprior <- LS.KLE(my_knots,N1,p,M,nu=nu,l=l,tau=tau,tol=tol,sseedLS=i)
       # as.vector(samp.WC(my_knots,nu_out,l_out,tau))
-      if(missing(tau.fix)){
+      if (missing(tau.fix)){
         Gamma <- tau*K
         GX <- Gamma%*%t(X)
         invXGX <- chol2inv(chol(X%*%GX+sig*diag(n)))
         xi_out <- fprior+GX%*%invXGX%*%(y-X%*%fprior)
       }
-      else{
+      else {
         invXGX <- chol2inv(chol(X%*%GX+sig*diag(n)))
         xi_out <- fprior+GX%*%invXGX%*%(y-X%*%fprior)
         # xi_out <- LS.KLE_MUR(my_knots,f=fprior,A=X,y,N1,p,M,nu,l,tausq=tau,sqrt(sig))
       }
-    }else{
+    } else{
       xi_out <- xi_in
     }
     
@@ -121,22 +121,22 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
     y_star <- y - Xxi
     set.seed(123)
     # sampling \sigma^2:
-    if(missing(sig.fix))
+    if (missing(sig.fix))
       sig <- 1/rgamma(1,shape = n/2,rate = sum(y_star^2)/2)
     
     # sampling \tau^2:
-    if(missing(tau.fix))
+    if (missing(tau.fix))
       tau <- 1/rgamma(1, shape = N/2, rate = (t(xi_out)%*%K_inv%*%xi_out)/2)
     
     # storing MCMC samples:
-    if(i > brn && i%%thin == 0){
+    if (i > brn && i%%thin == 0){
       xi_sam[,(i-brn)/thin] <- xi_out
       sig_sam[(i-brn)/thin] <- sig
       tau_sam[(i-brn)/thin] <- tau
       fhat_sam[,(i-brn)/thin] <- Xxi
     }
     
-    if(i%%1000==0 && verbose){
+    if (i%%1000 == 0 && verbose){
       print(i)
     }
     
@@ -152,7 +152,7 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
   ub <- max(f_low,f_upp,fmean,y)
   lb <- min(f_low,f_upp,fmean,y)
   
-  if(return.plot){
+  if (return.plot){
     par(mfrow=c(1,1))
     par(mar=c(2.1,2.1,2.1,1.1)) # adapt margins
     plot(x,y,pch='*',lwd=2,lty=1,col='black',
@@ -185,7 +185,7 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
   
   # OUTPUT: Posterior samples on nu,l,xi,tau,sig and fhat with posterior mean, 95% CI of fhat
   
-  if(length(y)!=length(x))
+  if (length(y) != length(x))
     stop("y and x should be of same length!")
   n <- length(y)
   N <- M*N1
@@ -195,17 +195,17 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
   my_knots <- seq(min(x),max(x),by=delta)
   X <- fctv(x,my_knots,M,N1)
   
-  if(missing(return.plot))
+  if (missing(return.plot))
     return.plot <- TRUE  
-  if(!missing(sseed))
+  if (!missing(sseed))
     set.seed(sseed)
-  if(missing(sseed))
+  if (missing(sseed))
     set.seed(Sys.Date())
-  if(missing(verbose))
+  if (missing(verbose))
     verbose <- TRUE
-  if(missing(nu.in))
+  if (missing(nu.in))
     nu.in <- 0.75
-  if(missing(l.in))
+  if (missing(l.in))
     l.in <- l_est(nu.in,c(my_knots[1],my_knots[length(my_knots)]),0.05)
   
   # prior covariance K:
@@ -213,23 +213,23 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
   # prior precision:
   # K_inv <- tinv(K)
   
-  if(missing(mcmc))
+  if (missing(mcmc))
     mcmc <- 5000
-  if(missing(brn))
+  if (missing(brn))
     brn <- 1000
-  if(missing(thin))
+  if (missing(thin))
     thin <- 1
-  if(!missing(tau.fix))
+  if (!missing(tau.fix))
     tau.in <- tau.fix
-  if(!missing(sig.fix))
+  if (!missing(sig.fix))
     sig.in <- sig.fix
-  if(!missing(xi.fix))
+  if (!missing(xi.fix))
     xi.in <- xi.fix
-  if(missing(tau.fix) && missing(tau.in))
+  if (missing(tau.fix) && missing(tau.in))
     tau.in <- 1
-  if(missing(sig.fix) && missing(sig.in))
+  if (missing(sig.fix) && missing(sig.in))
     sig.in <- 1
-  if(missing(xi.fix) && missing(xi.in))
+  if (missing(xi.fix) && missing(xi.in))
     xi.in <- rep(0,N)
   
   tau <- tau.in
@@ -247,11 +247,11 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
   ell_sam <- rep(NA,ef)
   fhat_sam <- matrix(NA,n,ef)
   
-  if(verbose)
+  if (verbose)
     print("MCMC sample draws:")
   
   ptm <- proc.time()
-  for(i in 1:em){
+  for (i in 1 : em){
     # sampling from \nu and \ell
     MH.out <- nu.MH2(nu_in,l_in,tau,xi_in,my_knots,range.nu=c(0.5,2.5),range.l=c(0.1,1),sd.nu=0.05,sd.l=0.05,
                     seed=i)
@@ -261,7 +261,7 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
     
     # sampling Xi:
     y_tilde <- y 
-    if(missing(xi.fix)){
+    if (missing(xi.fix)){
       fprior <- LS.KLE(my_knots,N1,p,M,nu=nu_out,l=l_out,tau=tau,tol=tol,sseedLS=i)
       # fprior <- as.vector(samp.WC(my_knots,nu_out,l_out,tau,sseedWC=i)) ## wood and chen FFT
       Gamma <- tau*kMat(my_knots,nu_out,l_out)
@@ -269,7 +269,7 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
       invXGX <- chol2inv(chol(X%*%GX+sig*diag(n)))
       xi_out <- as.vector(fprior+GX%*%invXGX%*%(y-X%*%fprior))
       # xi_out <- LS.KLE_MUR(my_knots,f=fprior,A=X,y,N1,p,M,nu,l,tausq=tau,sqrt(sig))
-    }else{
+    } else{
       xi_out <- xi_in
     }
     
@@ -277,16 +277,16 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
     y_star <- y - Xxi
     set.seed(123)
     # sampling \sigma^2:
-    if(missing(sig.fix))
+    if (missing(sig.fix))
       sig <- 1/rgamma(1,shape = n/2,rate = sum(y_star^2)/2)
     
     # sampling \tau^2:
-    if(missing(tau.fix))
+    if (missing(tau.fix))
       tau <- 1/rgamma(1, shape = N/2, rate = ((sum((t(L_inv)%*%xi_out)^2))/2))
     
     
     # storing MCMC samples:
-    if(i > brn && i%%thin == 0){
+    if (i > brn && i%%thin == 0){
       xi_sam[,(i-brn)/thin] <- xi_out
       sig_sam[(i-brn)/thin] <- sig
       tau_sam[(i-brn)/thin] <- tau
@@ -295,7 +295,7 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
       fhat_sam[,(i-brn)/thin] <- Xxi
     }
     
-    if(i%% 1000==0 && verbose){
+    if (i%% 1000==0 && verbose){
       print(i)
     }
     
@@ -314,7 +314,7 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
   ub <- max(f_low,f_upp,fmean,y)
   lb <- min(f_low,f_upp,fmean,y)
   
-  if(return.plot){
+  if (return.plot){
     par(mfrow=c(1,1))
     par(mar=c(2.1,2.1,2.1,1.1)) # adapt margins
     plot(x,y,pch='*',lwd=2,lty=1,col='black',
