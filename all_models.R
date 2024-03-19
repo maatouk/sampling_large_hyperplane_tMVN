@@ -304,7 +304,8 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
     nu_in <- nu_out
     l_in <- l_out
     
-  }; tm <- proc.time()-ptm
+  } 
+  tm <- proc.time()-ptm
   
   
   fmean <- rowMeans(fhat_sam)
