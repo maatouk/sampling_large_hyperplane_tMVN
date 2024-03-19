@@ -113,7 +113,7 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
         xi_out <- fprior+GX%*%invXGX%*%(y-X%*%fprior)
         # xi_out <- LS.KLE_MUR(my_knots,f=fprior,A=X,y,N1,p,M,nu,l,tausq=tau,sqrt(sig))
       }
-    } else{
+    } else {
       xi_out <- xi_in
     }
     
@@ -269,7 +269,7 @@ LS.KLE.MUR.hyp <- function(y,x,N1,p,M,mcmc,brn,thin,nu.in,l.in,sig.in,xi.in,tau.
       invXGX <- chol2inv(chol(X%*%GX+sig*diag(n)))
       xi_out <- as.vector(fprior+GX%*%invXGX%*%(y-X%*%fprior))
       # xi_out <- LS.KLE_MUR(my_knots,f=fprior,A=X,y,N1,p,M,nu,l,tausq=tau,sqrt(sig))
-    } else{
+    } else {
       xi_out <- xi_in
     }
     
