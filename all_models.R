@@ -142,7 +142,8 @@ LS.KLE.MUR.function <- function(y,x,N1,p,M,mcmc,brn,thin,nu,l,sig.in,xi.in,tau.i
     
     # renewing the initial value:
     xi_in <- xi_out
-  }; tm <- proc.time()-ptm
+  } 
+  tm <- proc.time()-ptm
   
   
   fmean <- rowMeans(fhat_sam)
