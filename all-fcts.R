@@ -93,7 +93,7 @@ MUR <- function(nbsim, u, A, y, nu, l, sigN, tol){
   N <- length(u)
   Gamma <- kMat(u, nu, l)
   f <- KLE_v(nbsim, u, p, nu, l, tol)
-  # f <- t(mvtnorm::rmvnorm(nbsim, rep(0,N), Gamma, method = 'eigen'))
+  # f <- t(mvtnorm::rmvnorm(nbsim, mean = rep(0,N), sigma = Gamma, method = 'eigen'))
   GA <- Gamma %*% t(A)
   return(f + GA %*% chol2inv(chol(A %*% GA + sigN^2 * diag(n))) %*% (y - A %*% f))
 }
@@ -142,7 +142,7 @@ LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS = 1){
   Gamma11 <- tau * kMat(u1, nu, l) + tol * diag(N1)
   set.seed(sseedLS)
   if (M == 1){
-    return(as.vector(mvtnorm::rmvnorm(n = 1, mu = rep(0, N1), Gamma11, method = 'chol')))
+    return(as.vector(mvtnorm::rmvnorm(n = 1, mean = rep(0, N1), sigma = Gamma11, method = 'chol')))
   }
   else 
     Gamma12 <- tau * k(outer(u1, u2, '-'), nu, l)
@@ -220,33 +220,33 @@ LS.KLE_v <- function(nbsim, u, N1, p, M, nu, l, tau, tol){
 ####################################################
 
 
-###################################################
-################### LS KLE MUR ####################
-###################################################
+####################################################
+################### LS KLE MUR #####################
+####################################################
 ## one posterior sample path
-LS.KLE_MUR <- function(u,f,A,y,N1,p,M,nu,l,tausq,sigN){
+LS.KLE_MUR <- function(u, f, A, y, N1, p, M, nu, l, tausq, sigN){
   n <- length(y)
-  # f <- LS.KLE(u,N1,p,M,nu,l,tol)
-  Gamma <- tausq*kMat(u,nu,l)
-  GA <- Gamma%*%t(A)
-  invAGA <- chol2inv(cholesky(A%*%GA+sigN^2*diag(n)))
-  return(f+GA%*%invAGA%*%(y-A%*%f))
+  # f <- LS.KLE(u, N1, p, M, nu, l, tol)
+  Gamma <- tausq * kMat(u, nu, l)
+  GA <- Gamma %*% t(A)
+  invAGA <- chol2inv(cholesky(A %*% GA + sigN^2 * diag(n)))
+  return(f + GA %*% invAGA %*% (y - A %*% f))
 }
 ##################################################
 
 
 
-##################################################
-#### LS KLE MUR more than one sample path ########
-##################################################
-LS.KLE_MUR_v <- function(nbsim,u,A,y,N1,p,M,nu,l,sigN,tausq,tol){
+####################################################
+###### LS KLE MUR more than one sample path ########
+####################################################
+LS.KLE_MUR_v <- function(nbsim, u, A, y, N1, p, M, nu, l, sigN, tausq, tol){
   n <- length(y)
-  f <- LS.KLE_v(nbsim,u,N1,p,M,nu,l,tau=tausq,tol)
-  Gamma <- tausq*kMat(u,nu,l)
-  GA <- Gamma%*%t(A)
-  return(f+GA%*%chol2inv(cholesky(A%*%GA+sigN^2*diag(n)))%*%(y-A%*%f))
+  f <- LS.KLE_v(nbsim, u, N1, p, M, nu, l, tau = tausq, tol)
+  Gamma <- tausq * kMat(u, nu, l)
+  GA <- Gamma %*% t(A)
+  return(f + GA %*% chol2inv(cholesky(A %*% GA + sigN^2 * diag(n))) %*% (y - A %*% f))
 }
-#####################################################
+####################################################
 
 
 
@@ -254,11 +254,11 @@ LS.KLE_MUR_v <- function(nbsim,u,A,y,N1,p,M,nu,l,sigN,tausq,tol){
 ################# samp WC function #################
 ####################################################
 ### Functions related to Wood and Chan algorithm of drawing samples
-# Order of the circulant matrix:
-# minimum value of g and m so that G can be embedded into C
+## Order of the circulant matrix:
+## minimum value of g and m so that G can be embedded into C
 min_g <- function(knot){
   N <- length(knot)
-  g <- ceiling(log(2*N,2))   #m=2^g and m>=2(n-1) : Wood & Chan notation; 
+  g <- ceiling(log(2 * N, 2))   #m=2^g and m>=2(n-1) : Wood & Chan notation; 
   #since we are going upto n and not stopping at (n-1), the condition is modified!
   return("g" = g)
 }
@@ -266,34 +266,34 @@ min_g <- function(knot){
 # forming the circulant matrix:
 circulant <- function(x){
   n <- length(x)
-  mat <- matrix(0, n, n)
+  mat <- matrix(0, nrow = n, ncol = n)
   for (j in 1 : n) {
-    mat[j, ] <- c(x[-(1:(n+1-j))], x[1:(n+1-j)])
+    mat[j, ] <- c(x[-(1 : (n + 1 - j))], x[1 : (n + 1 - j)])
   }
   return(mat)
 }
 
 
-# Function for forming the vector of circulant matrix:
-circ_vec <- function(knot,g,nu,l,tausq){
+## Function for forming the vector of circulant matrix:
+circ_vec <- function(knot, g, nu, l, tausq){
   delta_N <- 1/(length(knot)-1)
   m <- 2**g
   cj <- integer()
   for (j in 1 : m){
     if (j <= (m/2))
-      cj[j] <- (j-1)*delta_N
+      cj[j] <- (j - 1) * delta_N
     else
-      cj[j] <- (m-(j-1))*delta_N
+      cj[j] <- (m - (j - 1)) * delta_N
   }
-  x <- (tausq*MK(cj,0,l,nu))
+  x <- (tausq * MK(cj, 0, l, nu))
   return(x)
 }
 
 
-# Function for finding a g such that C is nnd:
-# without forming the circulant matrix and without computing eigen values:
-C.eval <- function(knot,g,nu,l,tausq){
-  vec <- circ_vec(knot,g,nu,l,tausq)
+## Function for finding a g such that C is nnd:
+## without forming the circulant matrix and without computing eigen values:
+C.eval <- function(knot, g, nu, l, tausq){
+  vec <- circ_vec(knot, g, nu, l, tausq)
   val <- fft(vec) # eigenvalues will be real as the circulant matrix formed by the 
   # vector is by construction is symmetric!
   ev <- min(Re(val))
@@ -301,21 +301,21 @@ C.eval <- function(knot,g,nu,l,tausq){
 }
 
 
-nnd_C <- function(knot,g,nu,l,tausq){
-  C.vec <- C.eval(knot,g,nu,l,tausq)$vec
-  eval <- C.eval(knot,g,nu,l,tausq)$min.eig.val
+nnd_C <- function(knot, g, nu, l, tausq){
+  C.vec <- C.eval(knot, g, nu, l, tausq)$vec
+  eval <- C.eval(knot, g, nu, l, tausq)$min.eig.val
   if (eval > 0)
-    return(list("cj" = C.vec,"g" = g))
+    return(list("cj" = C.vec, "g" = g))
   else {
-    g <- g+1
-    nnd_C(knot,g,nu,l,tausq)
+    g <- g + 1
+    nnd_C(knot, g, nu, l, tausq)
   }
 }
 
 # computing the eigen values of C using FFT:
 eigval <- function(knot,nu,l,tausq){
   g <- min_g(knot)
-  c.j <- nnd_C(knot,g,nu,l,tausq)$cj
+  c.j <- nnd_C(knot, g, nu, l, tausq)$cj
   lambda <- Re(fft(c.j))
   if (min(lambda) > 0)
     return(lambda)
@@ -327,59 +327,29 @@ eigval <- function(knot,nu,l,tausq){
 #################################################################
 ########## Samples drawn using Wood and Chan Algorithm ##########
 #################################################################
-samp.WC <- function(knot,nu,l,tausq,sseedWC=1){
+samp.WC <- function(knot, nu, l, tausq, sseedWC = 1){
   N <- length(knot)
-  lambda <- eigval(knot,nu,l,tausq)
+  lambda <- eigval(knot, nu, l, tausq)
   m <- length(lambda)
-  samp.vec <- rep(0,N)
-  a <- rep(0,m)
+  samp.vec <- rep(0, N)
+  a <- rep(0, m)
   set.seed(sseedWC)
-  a[1] <- sqrt(lambda[1])*rnorm(1)/sqrt(m)
-  a[(m/2)+1] <- sqrt(lambda[(m/2)+1])*rnorm(1)/sqrt(m)
+  a[1] <- sqrt(lambda[1]) * rnorm(1) / sqrt(m)
+  a[(m / 2) + 1] <- sqrt(lambda[(m / 2) + 1]) * rnorm(1) / sqrt(m)
   i <- sqrt(as.complex(-1))
   for (j in 2 : (m/2)){
-    uj <- rnorm(1); vj=rnorm(1)
-    a[j] <- (sqrt(lambda[j])*(uj + i*vj))/(sqrt(2*m))
-    a[m+2-j] <- (sqrt(lambda[j])*(uj - i*vj))/(sqrt(2*m))
+    uj <- rnorm(1)
+    vj <- rnorm(1)
+    a[j] <- (sqrt(lambda[j]) * (uj + i * vj)) / (sqrt(2 * m))
+    a[m + 2 - j] <- (sqrt(lambda[j]) * (uj - i * vj)) / (sqrt(2 * m))
   }
   samp <- fft(a)
-  samp.vec <- Re(samp[1:N])
+  samp.vec <- Re(samp[1 : N])
   return(samp.vec)
 }
 ####################################################
 
 
-
-
-## MH algo for \nu and \ell of Matern kernel:
-nu.MH2 <- function(nu.in,l.in,tau.in,xi.in,knot,range.nu,range.l,sd.nu,sd.l,seed=1){
-  Kmat <- kMat(knot,nu.in,l.in)
-  Linv <- solve(chol(Kmat+1e-10*diag(nrow(Kmat))))
-  set.seed(seed)
-  nu.cand <- exp(log(nu.in)+rnorm(1,0,sd.nu))
-  l.cand <- exp(log(l.in)+rnorm(1,0,sd.l))
-  dnu <- dunif(nu.cand,range.nu[1],range.nu[2])
-  dl <- dunif(l.cand,range.l[1],range.l[2])
-  if (dnu > 0 && dl > 0){
-    Kcand <- kMat(knot,nu.cand,l.cand)
-    Linv.cand <- solve(chol(Kcand+1e-10*diag(nrow(Kcand))))
-    t1 <- sum((t(Linv.cand)%*%xi.in)^2)
-    t2 <- sum((t(Linv)%*%xi.in)^2)
-    r <- exp(sum(log(diag(Linv.cand)))-sum(log(diag(Linv)))-((t1 - t2)/(2*tau.in)))*(nu.cand/nu.in)*(l.cand/l.in)
-    alpha <- min(r,1)
-  }
-  else{
-    alpha <- 0
-    Linv.cand <- Linv
-  }
-  u <- runif(1)
-  nu.out <- (u < alpha)*nu.cand + (u >= alpha)*nu.in
-  l.out <- (u < alpha)*l.cand + (u >= alpha)*l.in
-  cnt <- (u < alpha)*1 + (u >= alpha)*0
-  L_inv <- (u < alpha)*Linv.cand + (u >= alpha)*Linv
-  return(list("nu" = nu.out,"l" = l.out,
-              "L_inv"=L_inv))
-}
 
 
 ## end
