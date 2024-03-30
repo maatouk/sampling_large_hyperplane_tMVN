@@ -345,67 +345,67 @@ if (fossil == 'yes'){
   xtot <- age # input
   ytot <- strontium.ratio # total data
   ntot <- length(xtot) # nb of total data
-  ntr <- floor(ntot*0.8) # nb training data
-  nte <- ntot-ntr # nb test data
+  ntr <- floor(ntot * 0.8) # nb training data
+  nte <- ntot - ntr # nb test data
   N1 <- 150 # size of the 1st subdomain
   p <- 30 # KLE truncation parameter
   M <- 10 # nb of subdomains
   nbsim <- 5000 # nb of simulation
   trial <- 25 # nb of replicates
   nu <- 3.5 # smoothness kernel parameter
-  l <- l_est(nu,range(xtot),0.5) # length-scale parameter
+  l <- l_est(nu, range(xtot), 0.5) # length-scale parameter
   tol <- 1e-12
   sigN <- sd(ytot) # standard deviation
-  my_knots <- seq(min(xtot),max(xtot),length=(M*N1))
+  my_knots <- seq(min(xtot), max(xtot), length = (M * N1))
   ## split data
-  timeLS <- rep(NA,trial) # run time Large scale
-  timeMUR <- rep(NA,trial) # run time naive MUR
+  timeLS <- rep(NA, trial) # run time Large scale
+  timeMUR <- rep(NA, trial) # run time naive MUR
   for (Q in 1 : trial){
     print(Q)
-    set.seed(2*Q)
-    ind <- sample.int(ntot,ntr)
+    set.seed(2 * Q)
+    ind <- sample.int(ntot, ntr)
     xtr <- xtot[ind]
     ytr <- ytot[ind]
     xte <- xtot[-ind]
     yte <- ytot[-ind]
-    A <- fctv(xtr,u=my_knots,M,N1)
-    timeLS[Q] <- system.time(LS.KLE_MUR_v(nbsim,u=my_knots,A,y=ytr,N1,p,M,nu,l,sigN,tausq=1,tol))[3]
-    timeMUR[Q] <- system.time(MUR(nbsim,u=my_knots,A,y=ytr,nu,l,sigN,tol))[3]
+    A <- fctv(xtr, u = my_knots, M, N1)
+    timeLS[Q] <- system.time(LS.KLE_MUR_v(nbsim, u = my_knots, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol))[3]
+    timeMUR[Q] <- system.time(MUR(nbsim, u = my_knots, A, y = ytr, nu, l, sigN, tol))[3]
   }
   
   ## Illustration
-  par(mar=c(3.1,3.1,1.9, 1.1)) # adapt margins
-  post_samp_LS <- LS.KLE_MUR_v(nbsim,u=my_knots,A,y=ytr,N1,p,M,nu,l,sigN,tausq=1,tol)
-  post_samp_MUR <- MUR(nbsim,u=my_knots,A,y=ytr,nu,l,sigN,tol)
-  t <- seq(min(xtot),max(xtot),length=100)
-  Y_LS <- fctv(t,u=my_knots,M,N1)%*%post_samp_LS
-  Y_MUR <- fctv(t,u=my_knots,M,N1)%*%post_samp_MUR
-  tmp_LS <- apply(Y_LS, 1, quantile, probs=c(0.025, 0.5, 0.975))
-  f_low_LS <- tmp_LS[1,]
-  fmean_LS <- tmp_LS[2,]
-  f_upp_LS <- tmp_LS[3,]
-  tmp_MUR <- apply(Y_MUR, 1, quantile, probs=c(0.025, 0.5, 0.975))
-  f_low_MUR <- tmp_MUR[1,]
-  fmean_MUR <- tmp_MUR[2,]
-  f_upp_MUR <- tmp_MUR[3,]
+  par(mar=c(3.1, 3.1, 1.9, 1.1)) # adapt margins
+  post_samp_LS <- LS.KLE_MUR_v(nbsim, u = my_knots, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
+  post_samp_MUR <- MUR(nbsim, u = my_knots, A, y = ytr, nu, l, sigN, tol)
+  t <- seq(min(xtot), max(xtot), length = 100)
+  Y_LS <- fctv(t, u = my_knots, M, N1) %*% post_samp_LS
+  Y_MUR <- fctv(t, u = my_knots, M, N1) %*% post_samp_MUR
+  tmp_LS <- apply(Y_LS, 1, quantile, probs = c(0.025, 0.5, 0.975))
+  f_low_LS <- tmp_LS[1, ]
+  fmean_LS <- tmp_LS[2, ]
+  f_upp_LS <- tmp_LS[3, ]
+  tmp_MUR <- apply(Y_MUR, 1, quantile, probs = c(0.025, 0.5, 0.975))
+  f_low_MUR <- tmp_MUR[1, ]
+  fmean_MUR <- tmp_MUR[2, ]
+  f_upp_MUR <- tmp_MUR[3, ]
   ## Large-scale KLE_MUR
-  plot(xtr,ytr,pch='*',lwd=2,lty=1,col='black',
-       ylim=range(f_low_LS,f_upp_LS,ytr),xlab='',ylab='')
-  mtext(text =  paste("Average Time (s) = ", round(mean(timeLS),1)), side = 3, line = 0.8, cex = 1)
-  mtext(text =  paste("Dimension N = ", M*N1), side = 3, line = 0.1, cex = 1)
-  title(xlab='age',ylab='strontium ratio',line=2)
-  polygon(c(t,rev(t)),y=c(f_low_LS, rev(f_upp_LS)),border=F,col='gray')
-  lines(t,fmean_LS,type='l',lty=2,lwd=2)
-  points(xtr,ytr,pch='*')
+  plot(xtr, ytr, pch = '*', lwd = 2, lty = 1, col = 'black',
+       ylim = range(f_low_LS, f_upp_LS, ytr), xlab = '', ylab = '')
+  mtext(text =  paste("Average Time (s) = ", round(mean(timeLS), 1)), side = 3, line = 0.8, cex = 1)
+  mtext(text =  paste("Dimension N = ", M * N1), side = 3, line = 0.1, cex = 1)
+  title(xlab = 'age', ylab = 'strontium ratio', line = 2)
+  polygon(c(t, rev(t)), y = c(f_low_LS, rev(f_upp_LS)), border = F, col = 'gray')
+  lines(t, fmean_LS, type = 'l', lty = 2, lwd = 2)
+  points(xtr, ytr, pch = '*')
   ## Naive Matheron's update rule
-  plot(xtr,ytr,pch='*',lwd=2,lty=1,col='black',
-       ylim=range(f_low_MUR,f_upp_MUR,ytr),xlab='',ylab='')
-  mtext(text =  paste("Average Time (s) = ", round(mean(timeMUR),1)), side = 3, line = 0.8, cex = 1)
-  mtext(text =  paste("Dimension N = ", M*N1), side = 3, line = 0.1, cex = 1)
-  title(xlab='age',ylab='strontium ratio',line=2)
-  polygon(c(t,rev(t)),y=c(f_low_MUR, rev(f_upp_MUR)),border=F,col='gray')
-  lines(t,fmean_MUR,type='l',lty=2,lwd=2)
-  points(xtr,ytr,pch='*')
+  plot(xtr, ytr, pch = '*', lwd = 2, lty = 1, col = 'black',
+       ylim = range(f_low_MUR, f_upp_MUR, ytr), xlab = '', ylab = '')
+  mtext(text =  paste("Average Time (s) = ", round(mean(timeMUR), 1)), side = 3, line = 0.8, cex = 1)
+  mtext(text =  paste("Dimension N = ", M * N1), side = 3, line = 0.1, cex = 1)
+  title(xlab = 'age', ylab = 'strontium ratio', line = 2)
+  polygon(c(t, rev(t)),y = c(f_low_MUR, rev(f_upp_MUR)), border = F, col = 'gray')
+  lines(t, fmean_MUR, type = 'l', lty = 2, lwd = 2)
+  points(xtr, ytr, pch = '*')
   detach(fossil)
   ####################################################
 }
