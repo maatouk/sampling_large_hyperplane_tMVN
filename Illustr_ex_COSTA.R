@@ -152,17 +152,17 @@ if (LS.KLE10M == 'yes'){
   for (i in 1 : trial){
     print(i)
     for (j in 1 : length(M)){
-      u <- seq(0,1,length=N[j])
-      timeLS[i,j] <- system.time(LS.KLE(u,N1,p,M=M[j],nu=nu,l,tau=1,tol=1e-12,sseedLS=j))[3]
+      u <- seq(0, 1, length = N[j])
+      timeLS[i, j] <- system.time(LS.KLE(u, N1, p, M = M[j], nu = nu, l, tau = 1, tol = 1e-12, sseedLS = j))[3]
     }
   }
   averageLS <- colMeans(timeLS)
-  plot(N,averageLS,type='l',lwd=2,ylim=range(averageLS),
-       xlab='',ylab='')
-  title(xlab='Dimension', ylab='Average Time (s)',line=2)
-  legend(1000000,1.2,c('LS.KLE'),
-         lty=1,cex=1,text.font = 2, 
-         box.lty=0,lwd=2,bg='transparent')
+  plot(N, averageLS, type = 'l', lwd = 2, ylim = range(averageLS),
+       xlab = '', ylab = '')
+  title(xlab = 'Dimension', ylab = 'Average Time (s)', line = 2)
+  legend(1000000, 1.2, c('LS.KLE'),
+         lty = 1, cex = 1, text.font = 2, 
+         box.lty = 0, lwd = 2, bg = 'transparent')
   ####################################################
 }
 
@@ -178,79 +178,79 @@ if (synthetic == 'yes'){
   p <- 30 # KLE truncation parameter
   M <- 5 # nb of subdomains
   nbsim <- 5000 # nb of simulation
-  trial <- 2#5
+  trial <- 5
   nu <- 2.5 # smoothness parameter Matern Kernel MK 
-  l <- l_est(nu,range=c(0,1),0.2) # length-scale
-  u <- seq(0,1,length=(M*N1))
+  l <- l_est(nu, range = c(0, 1), 0.2) # length-scale
+  u <- seq(0, 1, length = (M * N1))
   tol <- 1e-12
-  # delta <- 1/(M*N1-1)
+  # delta <- 1 / (M * N1 - 1)
   ### data
-  ntot <- 50#500# # nb of total data
-  ntr <- 30#floor(ntot*0.8)# # nb training data
+  ntot <- 50 # nb of total data
+  ntr <- 30 # nb training data
   nte <- ntot-ntr # nb test data
-  sigN <- 0.05#0.1# # sd noise
+  sigN <- 0.05 # sd noise
   f <- function(x){
-    x*cos(2*x)#x*cos(10*x)#
+    x * cos(2 * x)
   }
   ## split data
   set.seed(123)
-  xtot <- runif(ntot,0,1)
-  ytot <- f(xtot) + rnorm(ntot,0,sd=sigN)
-  timeLS <- rep(NA,trial) # run time Large scale
-  timeMUR <- rep(NA,trial) # run time naive MUR
+  xtot <- runif(ntot, 0, 1)
+  ytot <- f(xtot) + rnorm(ntot, 0, sd = sigN)
+  timeLS <- rep(NA, trial) # run time Large scale
+  timeMUR <- rep(NA, trial) # run time naive MUR
   print("MCMC replicates:")
   for (Q in 1 : trial){
     print(Q)
-    set.seed(2*Q)
-    ind <- sample.int(ntot,ntr)
+    set.seed(2 * Q)
+    ind <- sample.int(ntot, ntr)
     xtr <- xtot[ind]
     ytr <- ytot[ind]
     xte <- xtot[-ind]
     yte <- ytot[-ind]
     ytrue.te <- f(xte)
-    A <- fctv(xtr,u,M,N1)
-    timeLS[Q] <- system.time(LS.KLE_MUR_v(nbsim,u,A,y=ytr,N1,p,M,nu,l,sigN,tausq=1,tol))[3]
-    timeMUR[Q] <- system.time(MUR(nbsim,u,A,y=ytr,nu,l,sigN,tol))[3]
+    A <- fctv(xtr, u, M, N1)
+    timeLS[Q] <- system.time(LS.KLE_MUR_v(nbsim, u, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol))[3]
+    timeMUR[Q] <- system.time(MUR(nbsim, u, A, y = ytr, nu, l, sigN, tol))[3]
   }
   ## Illustration
-  par(mar=c(3.1,3.1,1.9, 1.1)) # adapt margins
-  post_samp_LS <- LS.KLE_MUR_v(nbsim,u,A,y=ytr,N1,p,M,nu,l,sigN,tausq=1,tol)
-  post_samp_MUR <- MUR(nbsim,u,A,y=ytr,nu,l,sigN,tol)
-  t <- seq(0,1,length=500)
-  Y_LS <- fctv(t,u,M,N1)%*%post_samp_LS
-  Y_MUR <- fctv(t,u,M,N1)%*%post_samp_MUR
+  par(mar=c(3.1, 3.1, 1.9, 1.1)) # adapt margins
+  post_samp_LS <- LS.KLE_MUR_v(nbsim, u, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
+  post_samp_MUR <- MUR(nbsim, u, A, y = ytr, nu, l, sigN, tol)
+  t <- seq(0, 1, length = 500)
+  Y_LS <- fctv(t, u, M, N1) %*% post_samp_LS
+  Y_MUR <- fctv(t, u, M, N1) %*% post_samp_MUR
   tmp_LS <- apply(Y_LS, 1, quantile, probs=c(0.025, 0.5, 0.975))
-  f_low_LS <- tmp_LS[1,]
-  fmean_LS <- tmp_LS[2,]
-  f_upp_LS <- tmp_LS[3,]
+  f_low_LS <- tmp_LS[1, ]
+  fmean_LS <- tmp_LS[2, ]
+  f_upp_LS <- tmp_LS[3, ]
   tmp_MUR <- apply(Y_MUR, 1, quantile, probs=c(0.025, 0.5, 0.975))
-  f_low_MUR <- tmp_MUR[1,]
-  fmean_MUR <- tmp_MUR[2,]
-  f_upp_MUR <- tmp_MUR[3,]
+  f_low_MUR <- tmp_MUR[1, ]
+  fmean_MUR <- tmp_MUR[2, ]
+  f_upp_MUR <- tmp_MUR[3, ]
   ## Illustration: Large-scale KLE_MUR
-  plot(t,f(t),type='l',lwd=2,lty=1,col='black',
-       ylim=range(f_low_LS,f_upp_LS,f(u),ytr),xlab='',ylab='')
-  mtext(text =  paste("Average Time (s) = ", round(mean(timeLS),1)), side = 3, line = 0.8, cex = 1)
-  mtext(text =  paste("Dimension N = ", M*N1), side = 3, line = 0.1, cex = 1)
-  title(xlab='x',ylab='y(x)',line=2)
-  polygon(c(t,rev(t)),y=c(f_low_LS, rev(f_upp_LS)),border=F,col='gray')
-  lines(t,f(t),lwd=2,lty=1,col='black')
-  lines(t,fmean_LS,type='l',lty=2,lwd=2)
-  points(xtr,ytr,pch='*')
-  legend(0.1,0,c('true function','posterior mean'),lwd=2,
-         lty=c(1,2),bg='transparent',box.lty=0)
+  plot(t, f(t), type = 'l', lwd = 2, lty = 1, col = 'black',
+       ylim = range(f_low_LS, f_upp_LS, f(u), ytr), xlab = '', ylab = '')
+  mtext(text =  paste("Average Time (s) = ", round(mean(timeLS), 1)), side = 3, line = 0.8, cex = 1)
+  mtext(text =  paste("Dimension N = ", M * N1), side = 3, line = 0.1, cex = 1)
+  title(xlab = 'x', ylab = 'y(x)', line = 2)
+  polygon(c(t, rev(t)), y = c(f_low_LS, rev(f_upp_LS)), border = F, col = 'gray')
+  lines(t, f(t), lwd = 2, lty = 1, col = 'black')
+  lines(t, fmean_LS, type = 'l', lty = 2, lwd = 2)
+  points(xtr, ytr, pch = '*')
+  legend(0.1, 0, c('true function', 'posterior mean'), lwd = 2,
+         lty = c(1, 2), bg = 'transparent', box.lty = 0)
   ## Illustration: Naive Matheron's update rule
-  plot(t,f(t),type='l',lwd=2,lty=1,col='black',
-       ylim=range(f_low_MUR,f_upp_MUR,f(u),ytr),xlab='',ylab='')
-  mtext(text =  paste("Average Time (s) = ", round(mean(timeMUR),1)), side = 3, line = 0.8, cex = 1)
-  mtext(text =  paste("Dimension N = ", M*N1), side = 3, line = 0.1, cex = 1)
-  title(xlab='x',ylab='y(x)',line=2)
-  polygon(c(t,rev(t)),y=c(f_low_MUR, rev(f_upp_MUR)),border=F,col='gray')
-  lines(t,f(t),lwd=2,lty=1,col='black')
-  lines(t,fmean_MUR,type='l',lty=2,lwd=2)
-  points(xtr,ytr,pch='*')
-  legend(0.1,0,c('true function','posterior mean'),lwd=2,
-         lty=c(1,2),bg='transparent',box.lty=0)
+  plot(t, f(t), type = 'l', lwd = 2, lty = 1, col = 'black',
+       ylim = range(f_low_MUR, f_upp_MUR, f(u), ytr), xlab = '', ylab = '')
+  mtext(text =  paste("Average Time (s) = ", round(mean(timeMUR), 1)), side = 3, line = 0.8, cex = 1)
+  mtext(text =  paste("Dimension N = ", M * N1), side = 3, line = 0.1, cex = 1)
+  title(xlab = 'x', ylab = 'y(x)', line = 2)
+  polygon(c(t, rev(t)), y = c(f_low_MUR, rev(f_upp_MUR)),border = F, col = 'gray')
+  lines(t, f(t), lwd = 2, lty = 1, col = 'black')
+  lines(t, fmean_MUR, type = 'l', lty = 2, lwd = 2)
+  points(xtr, ytr, pch = '*')
+  legend(0.1, 0, c('true function', 'posterior mean'), lwd = 2,
+         lty = c(1, 2), bg = 'transparent', box.lty = 0)
   ####################################################
 }
 
