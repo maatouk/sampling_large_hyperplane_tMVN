@@ -8,8 +8,8 @@ library(MASS)
 #####################################################
 ## Matern family cov fct with \nu smooth para & \ell length-scale para
 #####################################################
-k <- function(h,nu,l){
-  matern.covariance(h,sqrt(2*nu)/l,nu=nu,sigma=1)
+k <- function(h, nu, l){
+  matern.covariance(h, sqrt(2 * nu) / l, nu = nu, sigma = 1)
 }
 
 ## kernel covariance matrix
