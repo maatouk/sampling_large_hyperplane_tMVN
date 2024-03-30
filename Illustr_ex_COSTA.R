@@ -64,7 +64,7 @@ if (WCvsLS.KLEN == 'yes'){
   ####### Comparison between samp.WC & LS.KLE ########
   ####################################################
   ## The Matérn smoothness parameter nu is fixed
-  par(mar=c(3.1, 3.1, 1.4, 1.1)) # adapt margins
+  par(mar = c(3.1, 3.1, 1.4, 1.1)) # adapt margins
   nu <- 0.5 # smoothness parameter Matern Kernel (MK)
   l <- 0.4 # length-scale parameter MK
   N <- seq(1000, 50000, length = 11) # sizes of MVN
@@ -100,7 +100,7 @@ if (WCvsLS.KLEN == 'yes'){
 
 if (WCvsLS.KLEnu == 'yes'){
   ### running time as a fct of the smoothness parameter nu 
-  par(mar=c(3.1, 3.1, 1.1, 1.1)) # adapt margins
+  par(mar = c(3.1, 3.1, 1.1, 1.1)) # adapt margins
   nu <- seq(0.5, 1.5, length = 10) # smoothness parameter
   N <- 10000 # sizes of MVN
   N1 <- 100 # size of 1st subdomain
@@ -140,7 +140,7 @@ if (LS.KLE10M == 'yes'){
   ##### Performance Fast.LS with N=10,000,000 #########
   ####################################################
   ## second test N1=100
-  par(mar=c(3.1, 3.1, 1.1, 1.1)) # adapt margins
+  par(mar = c(3.1, 3.1, 1.1, 1.1)) # adapt margins
   nu <- 1.5 # smoothness parameter Matern Kernel (MK)
   l <- 0.2 # length-scale parameter MK
   N1 <- 100 # size of 1st subdomain
@@ -213,17 +213,17 @@ if (synthetic == 'yes'){
     timeMUR[Q] <- system.time(MUR(nbsim, u, A, y = ytr, nu, l, sigN, tol))[3]
   }
   ## Illustration
-  par(mar=c(3.1, 3.1, 1.9, 1.1)) # adapt margins
+  par(mar = c(3.1, 3.1, 1.9, 1.1)) # adapt margins
   post_samp_LS <- LS.KLE_MUR_v(nbsim, u, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
   post_samp_MUR <- MUR(nbsim, u, A, y = ytr, nu, l, sigN, tol)
   t <- seq(0, 1, length = 500)
   Y_LS <- fctv(t, u, M, N1) %*% post_samp_LS
   Y_MUR <- fctv(t, u, M, N1) %*% post_samp_MUR
-  tmp_LS <- apply(Y_LS, 1, quantile, probs=c(0.025, 0.5, 0.975))
+  tmp_LS <- apply(Y_LS, 1, quantile, probs = c(0.025, 0.5, 0.975))
   f_low_LS <- tmp_LS[1, ]
   fmean_LS <- tmp_LS[2, ]
   f_upp_LS <- tmp_LS[3, ]
-  tmp_MUR <- apply(Y_MUR, 1, quantile, probs=c(0.025, 0.5, 0.975))
+  tmp_MUR <- apply(Y_MUR, 1, quantile, probs = c(0.025, 0.5, 0.975))
   f_low_MUR <- tmp_MUR[1, ]
   fmean_MUR <- tmp_MUR[2, ]
   f_upp_MUR <- tmp_MUR[3, ]
@@ -294,7 +294,7 @@ if (ageincome == 'yes'){
     timeMUR[Q] <- system.time(MUR(nbsim, my_knots, A, y = ytr, nu, l, sigN, tol))[3]
   }
   ## Illustration
-  par(mar=c(3.1, 3.1, 1.9, 1.1)) # adapt margins
+  par(mar = c(3.1, 3.1, 1.9, 1.1)) # adapt margins
   t <- seq(min(xtot), max(xtot), length = 100)
   post_samp_LS <- LS.KLE_MUR_v(nbsim, u = my_knots, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
   post_samp_MUR <- MUR(nbsim, u = my_knots, A, y = ytr, nu, l, sigN, tol)
@@ -304,7 +304,7 @@ if (ageincome == 'yes'){
   f_low_LS <- tmp_LS[1, ]
   fmean_LS <- tmp_LS[2, ]
   f_upp_LS <- tmp_LS[3, ]
-  tmp_MUR <- apply(Y_MUR, 1, quantile, probs=c(0.025, 0.5, 0.975))
+  tmp_MUR <- apply(Y_MUR, 1, quantile, probs = c(0.025, 0.5, 0.975))
   f_low_MUR <- tmp_MUR[1, ]
   fmean_MUR <- tmp_MUR[2, ] 
   f_upp_MUR <- tmp_MUR[3, ]
@@ -374,7 +374,7 @@ if (fossil == 'yes'){
   }
   
   ## Illustration
-  par(mar=c(3.1, 3.1, 1.9, 1.1)) # adapt margins
+  par(mar = c(3.1, 3.1, 1.9, 1.1)) # adapt margins
   post_samp_LS <- LS.KLE_MUR_v(nbsim, u = my_knots, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
   post_samp_MUR <- MUR(nbsim, u = my_knots, A, y = ytr, nu, l, sigN, tol)
   t <- seq(min(xtot), max(xtot), length = 100)
