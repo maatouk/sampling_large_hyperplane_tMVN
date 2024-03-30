@@ -13,8 +13,8 @@ k <- function(h, nu, l){
 }
 
 ## kernel covariance matrix
-kMat <- function(knot,nu,l){
-  k(outer(knot,knot,'-'),nu,l)
+kMat <- function(knot, nu, l){
+  k(outer(knot, knot, '-'), nu, l)
 }
 
 
@@ -22,22 +22,22 @@ kMat <- function(knot,nu,l){
 ######## Maatouk & Bay2017 Basis functions ##########
 #####################################################
 h <- function(x){
-  ifelse(x >= -1 & x <= 1, 1-abs(x), 0)
+  ifelse(x >= -1 & x <= 1, 1 - abs(x), 0)
 }
-hi <- function(x,u,i){
-  delta <- (max(u)-min(u))/(length(u)-1)
-  h((x - u[i])/delta)
+hi <- function(x, u, i){
+  delta <- (max(u) - min(u)) / (length(u) - 1)
+  h((x - u[i]) / delta)
 }
 ##############################################
 
 ##############################################
 ####### function of design matrix ############
 ##############################################
-fctv <- function(x,u,M,N1){
+fctv <- function(x, u, M, N1){
   n <- length(x)
-  v <- matrix(NA, nrow = n, ncol = (M*N1))
-  for (j in 1 : (M*N1)){
-    v[, j] = hi(x,u,i=j)
+  v <- matrix(NA, nrow = n, ncol = (M * N1))
+  for (j in 1 : (M * N1)){
+    v[, j] = hi(x, u, i = j)
   }
   return(v)
 }
@@ -48,17 +48,17 @@ fctv <- function(x,u,M,N1){
 #####################################################
 ########### Naive KLE one sample path ###############
 #####################################################
-KLE <- function(u,p,nu,l,tol){
+KLE <- function(u, p, nu, l, tol){
   N <- length(u)
   if (missing(tol)){
     tol <- 1e-8
   }
-  Gamma <- kMat(u,nu,l) + tol*diag(N)
+  Gamma <- kMat(u, nu, l) + tol * diag(N)
   eig <- eigen(Gamma)
-  value <- eig$values[1:p]
-  vector <- eig$vectors[,1:p]
+  value <- eig$values[1 : p]
+  vector <- eig$vectors[, 1 : p]
   eta <- rnorm(p)
-  return(as.vector(vector%*%(sqrt(value)*eta)))
+  return(as.vector(vector %*% (sqrt(value) * eta)))
 }
 #################################################
 
@@ -67,19 +67,19 @@ KLE <- function(u,p,nu,l,tol){
 #####################################################
 ####### Naive KLE more than one sample path #########
 #####################################################
-KLE_v <- function(nbsim,u,p,nu,l,tol){
+KLE_v <- function(nbsim, u, p, nu, l, tol){
   N <- length(u)
   if (missing(tol)){
     tol <- 1e-8
   }
-  Gamma <- kMat(u,nu,l)+tol*diag(N)
+  Gamma <- kMat(u,nu,l) + tol * diag(N)
   eig <- eigen(Gamma)
-  value <- eig$values[1:p]
-  vector <- eig$vectors[,1:p]
-  eta <- matrnorm(p,nbsim)
-  return(vector%*%(sqrt(value)*eta))
+  value <- eig$values[1 : p]
+  vector <- eig$vectors[, 1 : p]
+  eta <- matrnorm(p, nbsim)
+  return(vector %*% (sqrt(value) * eta))
 }
-#################################################
+###################################################
 
 
 
@@ -88,43 +88,43 @@ KLE_v <- function(nbsim,u,p,nu,l,tol){
 ####################################################
 ######### naive Matheron's update rule #############
 ####################################################
-MUR <- function(nbsim,u,A,y,nu,l,sigN,tol){
+MUR <- function(nbsim, u, A, y, nu, l, sigN, tol){
   n <- length(y)
   N <- length(u)
-  Gamma <- kMat(u,nu,l)
-  f <- KLE_v(nbsim,u,p,nu,l,tol)
-  # f <- t(mvtnorm::rmvnorm(nbsim,rep(0,N),Gamma,method='eigen'))
-  GA <- Gamma%*%t(A)
-  return(f+GA%*%chol2inv(chol(A%*%GA+sigN^2*diag(n)))%*%(y-A%*%f))
+  Gamma <- kMat(u, nu, l)
+  f <- KLE_v(nbsim, u, p, nu, l, tol)
+  # f <- t(mvtnorm::rmvnorm(nbsim, rep(0,N), Gamma, method = 'eigen'))
+  GA <- Gamma %*% t(A)
+  return(f + GA %*% chol2inv(chol(A %*% GA + sigN^2 * diag(n))) %*% (y - A %*% f))
 }
 
 
-#####################################################
-####### function for length-scale estimating ########
-#####################################################
+####################################################
+####### function for length-scale estimating #######
+####################################################
 # function for uniroot:
-fl <- function(l,para){ 
-  #para[1]=x, para[2]=y and para[3]=nu of MK : Matern kernel function;
-  #para[4]=pre-specified value of the correlation
-  a <- k(abs(para[1]-para[2]),para[3],l)
-  return(a-para[4])
+fl <- function(l, para){ 
+  # para[1] = x, para[2] = y and para[3] = nu of MK : Matern kernel function
+  # para[4] = pre-specified value of the correlation
+  a <- k(abs(para[1] - para[2]), para[3], l)
+  return(a - para[4])
 }
 
 
-l_est <- function(nu,range,val){
+l_est <- function(nu, range, val){
   # nu : smoothness; range : c(min, max) of the range of variable
   # val : pre-specified value of the correlation between the maximum seperation
-  para <- c(range[1],range[2],nu,val)
-  rl <- uniroot(f=fl,interval = c(0.000001,100000),para)
+  para <- c(range[1], range[2], nu, val)
+  rl <- uniroot(f = fl, interval = c(0.000001, 100000), para)
   return(rl$root)
 }
-###################################################
+####################################################
 
 
-###################################################
+####################################################
 ################ LS KLE one sample #################
-###################################################
-LS.KLE <- function(u,N1,p,M,nu,l,tau,tol,sseedLS=1){
+####################################################
+LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS = 1){
   if (missing(tol)){
     tol <- 1e-8
   }
@@ -137,44 +137,44 @@ LS.KLE <- function(u,N1,p,M,nu,l,tau,tol,sseedLS=1){
     stop("N1 cannot be zero")
   if (length(u) != M*N1)
     stop("The length of the vector u must be M times N1")
-  u1 <- u[1:N1]
-  u2 <- u[(N1+1):(2*N1)]
-  Gamma11 <- tau*kMat(u1,nu,l)+tol*diag(N1)
+  u1 <- u[1 : N1]
+  u2 <- u[(N1 + 1) : (2 * N1)]
+  Gamma11 <- tau * kMat(u1, nu, l) + tol * diag(N1)
   set.seed(sseedLS)
   if (M == 1){
-    return(as.vector(mvtnorm::rmvnorm(n=1,mu=rep(0,N1),Gamma11,method='chol')))
+    return(as.vector(mvtnorm::rmvnorm(n = 1, mu = rep(0, N1), Gamma11, method = 'chol')))
   }
   else 
-    Gamma12 <- tau*k(outer(u1,u2,'-'),nu,l)
+    Gamma12 <- tau * k(outer(u1, u2, '-'), nu, l)
   eig11 <- eigen(Gamma11)
-  value11 <- eig11$values[1:p]
-  vector11 <- eig11$vectors[,1:p]
-  K12 <- (((t(vector11)%*%(Gamma12))%*%
-             (vector11))/
-            sqrt(tcrossprod(value11)))#*delta
-  L12 <- t(chol(diag(p)-crossprod(K12)))
-  eta <- matrnorm(M,p)
-  etaT <- matrix(NA,M,p)
-  f <- matrix(NA,M,N1)
-  f[1,] <- vector11%*%(sqrt(value11)*eta[1,])  
-  etaT[1,] <- eta[1,]
+  value11 <- eig11$values[1 : p]
+  vector11 <- eig11$vectors[, 1 : p]
+  K12 <- (((t(vector11) %*% (Gamma12)) %*%
+             (vector11)) / 
+            sqrt(tcrossprod(value11)))
+  L12 <- t(chol(diag(p) - crossprod(K12)))
+  eta <- matrnorm(M, p)
+  etaT <- matrix(NA, nrow = M, ncol = p)
+  f <- matrix(NA, nrow = M, ncol = N1)
+  f[1,] <- vector11 %*% (sqrt(value11) * eta[1, ])  
+  etaT[1, ] <- eta[1, ]
   for (i in 2 : M){
-    etaT[i,] <- t(K12)%*%etaT[(i-1),]+L12%*%eta[i,]
-    f[i,] <- vector11%*%(sqrt(value11)*etaT[i,])  
+    etaT[i, ] <- t(K12) %*% etaT[(i - 1), ] + L12 %*% eta[i, ]
+    f[i, ] <- vector11 %*% (sqrt(value11) * etaT[i, ])  
   }
   return(as.vector(t(f)))
 }
-#####################################################
+####################################################
 
 
 
 
 
-###################################################
-########## LS KLE more than one sample ############
-###################################################
+####################################################
+########## LS KLE more than one sample #############
+####################################################
 
-LS.KLE_v <- function(nbsim,u,N1,p,M,nu,l,tau,tol){
+LS.KLE_v <- function(nbsim, u, N1, p, M, nu, l, tau, tol){
   if (missing(nbsim)){
     nbsim <- 10
   }
@@ -188,37 +188,36 @@ LS.KLE_v <- function(nbsim,u,N1,p,M,nu,l,tau,tol){
     stop("M cannot be zero")
   if (N1 == 0)
     stop("N1 cannot be zero")
-  if (length(u) != M*N1)
+  if (length(u) != M * N1)
     stop("The length of the vector u must be M times N1")
-  u1 <- u[1:N1]
-  u2 <- u[(N1+1):(2*N1)]
-  # delta <- 1/(M*(N1-1))
-  Gamma11 <- tau*kMat(u1,nu,l)+tol*diag(N1)
+  u1 <- u[1 : N1]
+  u2 <- u[(N1 + 1) : (2 * N1)]
+  # delta <- 1 / (M * (N1 - 1))
+  Gamma11 <- tau * kMat(u1, nu, l) + tol * diag(N1)
   if (M == 1){
-    return(as.vector(mvtnorm::rmvnorm(n=1,mu=rep(0,N1),Gamma11,method='chol')))
+    return(as.vector(mvtnorm::rmvnorm(n = 1, mean = rep(0, N1), sigma = Gamma11, method = 'chol')))
   }
   else 
-    Gamma12 <- tau*k(outer(u1,u2,'-'),nu,l)
+    Gamma12 <- tau * k(outer(u1, u2, '-'), nu, l)
   eig11 <- eigen(Gamma11)
-  value11 <- eig11$values[1:p]
-  vector11 <- eig11$vectors[,1:p]
-  K12 <- (((t(vector11)%*%(Gamma12))%*%
-             (vector11))/
-            sqrt(tcrossprod(value11)))
-  L12 <- t(chol(diag(p)-crossprod(K12)))
-  eta <- matrnorm(p,nbsim)
+  value11 <- eig11$values[1 : p]
+  vector11 <- eig11$vectors[, 1 : p]
+  K12 <- (((t(vector11) %*% (Gamma12)) %*% 
+             (vector11)) / sqrt(tcrossprod(value11)))
+  L12 <- t(chol(diag(p) - crossprod(K12)))
+  eta <- matrnorm(p, nbsim)
   etaT <- list()
   etaT[[1]] <- eta
   f <- list()
-  f[[1]] <- vector11%*%(sqrt(value11)*eta)
+  f[[1]] <- vector11 %*% (sqrt(value11) * eta)
   for (i in 2 : M){
-    eta <- matrnorm(p,nbsim)
-    etaT[[i]] <- t(K12)%*%etaT[[i-1]]+L12%*%eta
-    f[[i]] <- vector11%*%(sqrt(value11)*etaT[[i]])
+    eta <- matrnorm(p, nbsim)
+    etaT[[i]] <- t(K12) %*% etaT[[i - 1]] + L12 %*% eta
+    f[[i]] <- vector11 %*% (sqrt(value11) * etaT[[i]])
   }
-  return(do.call(rbind,f))
+  return(do.call(rbind, f))
 }
-###################################################
+####################################################
 
 
 ###################################################
