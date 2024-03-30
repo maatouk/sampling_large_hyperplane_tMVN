@@ -28,33 +28,33 @@ if (KLEvsLS.KLE == 'yes'){
   ####################################################
   ####### naive KLE versus Large scale KLE ###########
   ####################################################
-  par(mar=c(3.1,3.1,1.1,1.1)) # adapt margins
+  par(mar = c(3.1, 3.1, 1.1, 1.1)) # adapt margins
   nu <- 2.5 # smoothness parameter Matern Kernel (MK)
-  l <- l_est(nu,c(0,1),0.05) # length-scale parameter MK
-  N <- seq(100,1000,length=10) # size of the MVN
+  l <- l_est(nu, c(0,1), 0.05) # length-scale parameter MK
+  N <- seq(100, 1000, length=10) # size of the MVN
   N1 <- 50
-  M <- N/N1
+  M <- N / N1
   p <- 30
   trial <- 25
-  timeKLE <- matrix(NA,trial,length(N))
-  timeLS.KLE <- matrix(NA,trial,length(N))
+  timeKLE <- matrix(NA, nrow = trial, ncol = length(N))
+  timeLS.KLE <- matrix(NA, nrow = trial, ncol = length(N))
   for (j in 1 : trial){
     print(j)
     for (i in 1 : length(N)){
-      u <- seq(0,1,length=N[i])
-      timeLS.KLE[j,i] <- system.time(LS.KLE(u=u,N1=N1,p=p,M=M[i],
-                                            nu=nu,l=l,tau=1,tol=1e-12,sseedLS=i))[3]
-      timeKLE[j,i] <- system.time(KLE(u,p,nu,l))[3]
+      u <- seq(0, 1, length = N[i])
+      timeLS.KLE[j,i] <- system.time(LS.KLE(u = u, N1 = N1, p = p, M = M[i],
+                                            nu = nu, l = l, tau = 1, tol = 1e-12, sseedLS = i))[3]
+      timeKLE[j,i] <- system.time(KLE(u, p, nu, l))[3]
     }
   } 
   averageLS.KLE <- colMeans(timeLS.KLE)
   averageKLE <- colMeans(timeKLE)
-  plot(N,averageLS.KLE,type='l',lwd=2,ylim=range(averageLS.KLE,averageKLE),xlab='',ylab='')
-  title(xlab='Dimension', ylab='Average Time (s)',line=2)
-  lines(N,averageKLE,type='l',lty=2,lwd=2)
-  legend(200,0.9,c('KLE','LS.KLE'),
-         lty=c(2,1),cex=1,
-         text.font = 2, box.lty=0,lwd=2)
+  plot(N, averageLS.KLE, type = 'l', lwd = 2, ylim = range(averageLS.KLE, averageKLE), xlab = '', ylab = '')
+  title(xlab = 'Dimension', ylab = 'Average Time (s)', line = 2)
+  lines(N, averageKLE, type = 'l', lty = 2, lwd = 2)
+  legend(200, 0.9, c('KLE', 'LS.KLE'),
+         lty = c(2, 1), cex = 1,
+         text.font = 2, box.lty = 0,lwd = 2)
   ##############################################################
 }
 
@@ -64,73 +64,73 @@ if (WCvsLS.KLEN == 'yes'){
   ####### Comparison between samp.WC & LS.KLE ########
   ####################################################
   ## The Matérn smoothness parameter nu is fixed
-  par(mar=c(3.1,3.1,1.4,1.1)) # adapt margins
+  par(mar=c(3.1, 3.1, 1.4, 1.1)) # adapt margins
   nu <- 0.5 # smoothness parameter Matern Kernel (MK)
   l <- 0.4 # length-scale parameter MK
-  N <- seq(1000,50000,length=11) # sizes of MVN
+  N <- seq(1000, 50000, length = 11) # sizes of MVN
   N1 <- 100 # size of 1st subdomain
-  M <- N/N1
+  M <- N / N1
   p <- 30 # truncation expansion parameter
   trial <- 25
-  timeWC <- matrix(NA,trial,length(N))
-  timeLS <- matrix(NA,trial,length(N))
+  timeWC <- matrix(NA, ,nrow = trial, ncol = length(N))
+  timeLS <- matrix(NA, nrow = trial, ncol = length(N))
   for (j in 1 : trial){
     print(j)
     for (i in 1 : length(N)){
-      u <- seq(0,1,length=N[i])
-      timeLS[j,i] <- system.time(LS.KLE(u,N1=N1,p,M=M[i],nu=nu,l=l,tau=1,tol=1e-12,sseedLS=i))[3]
-      timeWC[j,i] <- system.time(samp.WC(knot=u,nu=nu,l=l,tausq=1,sseedWC=i))[3]
+      u <- seq(0, 1, length = N[i])
+      timeLS[j, i] <- system.time(LS.KLE(u, N1 = N1, p, M = M[i], nu = nu, l = l, tau = 1, tol = 1e-12, sseedLS = i))[3]
+      timeWC[j, i] <- system.time(samp.WC(knot = u, nu = nu, l = l, tausq = 1, sseedWC = i))[3]
     }
   } 
   averageLS <- colMeans(timeLS)
   averageWC <- colMeans(timeWC)
   # smooth <- paste("smoothness~parameter~", expression(nu), "~", nu)
-  plot(N,averageLS,type='l',lwd=2,
-       ylim=range(averageLS,averageWC),xlab='',ylab='')
+  plot(N, averageLS, type = 'l', lwd = 2,
+       ylim = range(averageLS, averageWC), xlab = '', ylab = '')
   # mtext(parse(text = smooth))
-  title(xlab='Dimension', ylab='Average Time (s)',line=2)
-  mtext(text=c('smoothness parameter'),side=3,line=0.6,cex=1)
+  title(xlab = 'Dimension', ylab = 'Average Time (s)',line = 2)
+  mtext(text = c('smoothness parameter'), side = 3, line = 0.6, cex = 1)
   mtext(bquote(nu == .(nu)), side = 3, line = -0.1, cex = 1)
-  lines(N,averageWC,type='l',lty=2,lwd=2)
-  legend(1000,0.33,c('FFT.WC','LS.KLE'),
-         lty=c(2,1),cex=1,
-         text.font = 2, box.lty=0,lwd=2,bg='transparent')
+  lines(N, averageWC, type = 'l', lty = 2, lwd = 2)
+  legend(1000, 0.33, c('FFT.WC', 'LS.KLE'),
+         lty = c(2, 1), cex = 1,
+         text.font = 2, box.lty = 0, lwd = 2, bg = 'transparent')
   ####################################################
 }
 
 if (WCvsLS.KLEnu == 'yes'){
   ### running time as a fct of the smoothness parameter nu 
-  par(mar=c(3.1,3.1,1.1,1.1)) # adapt margins
-  nu <- seq(0.5,1.5,length=10) # smoothness parameter
+  par(mar=c(3.1, 3.1, 1.1, 1.1)) # adapt margins
+  nu <- seq(0.5, 1.5, length = 10) # smoothness parameter
   N <- 10000 # sizes of MVN
   N1 <- 100 # size of 1st subdomain
-  M <- N/N1 # nb of subdomains
+  M <- N / N1 # nb of subdomains
   p <- 30 # expansion retains parameter
   trial <- 25 # nb of replicates
   l <- 0.4 # length-scale parameter MK
-  timeWC <- matrix(NA,length(nu),trial)
-  timeLS <- matrix(NA,length(nu),trial)
-  u <- seq(0,1,length=N)
+  timeWC <- matrix(NA, nrow = length(nu), ncol = trial)
+  timeLS <- matrix(NA, nrow = length(nu), ncol = trial)
+  u <- seq(0, 1, length = N)
   for (i in 1 : length(nu)){
     print(i)
     for (j in 1 : trial){
-      timeLS[i,j] <- system.time(LS.KLE(u,N1=N1,p,M=M,nu=nu[i],l=l,tau=1,tol=1e-12,sseedLS=j))[3]
-      timeWC[i,j] <- system.time(samp.WC(u,nu=nu[i],l=l,tausq=1,sseedWC=j))[3]
+      timeLS[i, j] <- system.time(LS.KLE(u, N1 = N1, p, M = M, nu = nu[i], l = l, tau = 1, tol = 1e-12, sseedLS = j))[3]
+      timeWC[i, j] <- system.time(samp.WC(u, nu = nu[i], l = l, tausq = 1,sseedWC = j))[3]
     }
   } 
   averageLS <- rowMeans(timeLS)
   averageWC <- rowMeans(timeWC)
-  plot(nu,averageLS,type='l',lwd=2,
-       ylim=range(averageLS,averageWC),
-       xlab='',ylab='')
-  title(ylab='Average Time (s)',line=2)
-  mtext(text=expression("smoothness parameter" ~ nu),
-        side=1,line=2)
+  plot(nu, averageLS, type = 'l', lwd = 2,
+       ylim = range(averageLS, averageWC),
+       xlab = '', ylab = '')
+  title(ylab = 'Average Time (s)',line = 2)
+  mtext(text = expression("smoothness parameter" ~ nu),
+        side = 1, line = 2)
   mtext(text =  paste("Dimension N = ", N), side = 3, line = 0.2, cex = 1)
-  lines(nu,averageWC,type='l',lty=2,lwd=2)
-  legend(0.5,0.4,c('FFT.WC','LS.KLE'),
-         lty=c(2,1),cex=1,text.font = 2, 
-         box.lty=0,lwd=2,bg='transparent')
+  lines(nu, averageWC, type = 'l', lty = 2, lwd = 2)
+  legend(0.5, 0.4, c('FFT.WC', 'LS.KLE'),
+         lty = c(2, 1), cex = 1, text.font = 2, 
+         box.lty = 0, lwd = 2, bg = 'transparent')
   #####################################################
 }
 
@@ -140,15 +140,15 @@ if (LS.KLE10M == 'yes'){
   ##### Performance Fast.LS with N=10,000,000 #########
   ####################################################
   ## second test N1=100
-  par(mar=c(3.1,3.1,1.1,1.1)) # adapt margins
+  par(mar=c(3.1, 3.1, 1.1, 1.1)) # adapt margins
   nu <- 1.5 # smoothness parameter Matern Kernel (MK)
   l <- 0.2 # length-scale parameter MK
   N1 <- 100 # size of 1st subdomain
   p <- 30
-  M <- seq(1000,100000,length=10) # nbs of blocks
-  N <- M*N1 # sizes of the MVN
-  trial <- 2#5
-  timeLS <- matrix(NA,trial,length(M))
+  M <- seq(1000, 100000, length = 10) # nbs of blocks
+  N <- M * N1 # sizes of the MVN
+  trial <- 5
+  timeLS <- matrix(NA, nrow = trial, ncol = length(M))
   for (i in 1 : trial){
     print(i)
     for (j in 1 : length(M)){
