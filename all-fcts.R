@@ -9,7 +9,7 @@ library(MASS)
 ## Matern family cov fct with \nu smooth para & \ell length-scale para
 #####################################################
 k <- function(h, nu, l) {
-  matern.covariance(h, sqrt(2 * nu) / l, nu = nu, sigma = 1)
+  matern.covariance(h, sqrt(2 * nu)/l, nu = nu, sigma = 1)
 }
 
 ## kernel covariance matrix
@@ -72,7 +72,7 @@ KLE_v <- function(nbsim, u, p, nu, l, tol) {
   if (missing(tol)) {
     tol <- 1e-8
   }
-  Gamma <- kMat(u,nu,l) + tol * diag(N)
+  Gamma <- kMat(u, nu, l) + tol * diag(N)
   eig <- eigen(Gamma)
   value <- eig$values[1 : p]
   vector <- eig$vectors[, 1 : p]
@@ -93,7 +93,7 @@ MUR <- function(nbsim, u, A, y, nu, l, sigN, tol) {
   N <- length(u)
   Gamma <- kMat(u, nu, l)
   f <- KLE_v(nbsim, u, p, nu, l, tol)
-  # f <- t(mvtnorm::rmvnorm(nbsim, mean = rep(0,N), sigma = Gamma, method = 'eigen'))
+  # f <- t(mvtnorm::rmvnorm(nbsim, mean = rep(0, N), sigma = Gamma, method = 'eigen'))
   GA <- Gamma %*% t(A)
   return(f + GA %*% chol2inv(chol(A %*% GA + sigN^2 * diag(n))) %*% (y - A %*% f))
 }
@@ -313,7 +313,7 @@ nnd_C <- function(knot, g, nu, l, tausq) {
 }
 
 # computing the eigen values of C using FFT:
-eigval <- function(knot,nu,l,tausq) {
+eigval <- function(knot, nu, l, tausq) {
   g <- min_g(knot)
   c.j <- nnd_C(knot, g, nu, l, tausq)$cj
   lambda <- Re(fft(c.j))
