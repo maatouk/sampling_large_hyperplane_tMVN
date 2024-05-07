@@ -72,7 +72,7 @@ if (WCvsLS.KLEN == 'yes') {
   M <- N / N1
   p <- 30 # truncation expansion parameter
   trial <- 25
-  timeWC <- matrix(NA, ,nrow = trial, ncol = length(N))
+  timeWC <- matrix(NA, nrow = trial, ncol = length(N))
   timeLS <- matrix(NA, nrow = trial, ncol = length(N))
   for (j in 1 : trial) {
     print(j)
