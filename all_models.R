@@ -10,7 +10,7 @@ source('all-fcts.R')
 ### Function for drawing posterior samples using LS and MUR without hyperparameter updates (nu & ell):
 ########### Nonparametric functions estimation 
 LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, xi.in, tau.in,
-                             tau.fix, sig.fix, xi.fix, sseed, verbose, return.plot, tol){
+                             tau.fix, sig.fix, xi.fix, sseed, verbose, return.plot, tol) {
   # y:Response variable; x: vector to form design matrix \Psi (n X N+1)
   # N1: the number of knots of 1st subdomain
   # mcmc, brn, thin : mcmc samples, burning and thinning for MCMC
@@ -59,7 +59,7 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
     brn <- 1000
   if (missing(thin))
     thin <- 1
-  if (!missing(tau.fix)){
+  if (!missing(tau.fix)) {
     tau.in <- tau.fix
     ## Hassan added two lines
     Gamma <- tau.in * K
@@ -94,13 +94,13 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
     print("MCMC sample draws:")
   
   ptm <- proc.time()
-  for (i in 1 : em){
+  for (i in 1 : em) {
     # sampling Xi:
     y_tilde <- y 
-    if (missing(xi.fix)){
+    if (missing(xi.fix)) {
       fprior <- LS.KLE(my_knots, N1, p, M, nu = nu, l = l, tau = tau, tol = tol, sseedLS = i)
       # as.vector(samp.WC(my_knots, nu_out, l_out, tau))
-      if (missing(tau.fix)){
+      if (missing(tau.fix)) {
         Gamma <- tau * K
         GX <- Gamma %*% t(X)
         invXGX <- chol2inv(chol(X %*% GX + sig * diag(n)))
@@ -120,21 +120,21 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
     set.seed(123)
     # sampling \sigma^2:
     if (missing(sig.fix))
-      sig <- 1 / rgamma(1, shape = n/2, rate = sum(y_star^2) / 2)
+      sig <- 1/rgamma(1, shape = n/2, rate = sum(y_star^2) / 2)
     
     # sampling \tau^2:
     if (missing(tau.fix))
-      tau <- 1 / rgamma(1, shape = N/2, rate = (t(xi_out) %*% K_inv %*% xi_out) / 2)
+      tau <- 1/rgamma(1, shape = N/2, rate = (t(xi_out) %*% K_inv %*% xi_out) / 2)
     
     # storing MCMC samples:
-    if (i > brn && i%%thin == 0){
-      xi_sam[, (i - brn) / thin] <- xi_out
-      sig_sam[(i - brn) / thin] <- sig
-      tau_sam[(i - brn) / thin] <- tau
-      fhat_sam[, (i - brn) / thin] <- Xxi
+    if (i > brn && i%%thin == 0) {
+      xi_sam[, (i - brn)/thin] <- xi_out
+      sig_sam[(i - brn)/thin] <- sig
+      tau_sam[(i - brn)/thin] <- tau
+      fhat_sam[, (i - brn)/thin] <- Xxi
     }
     
-    if (i%%1000 == 0 && verbose){
+    if (i%%1000 == 0 && verbose) {
       print(i)
     }
     
@@ -151,7 +151,7 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
   ub <- max(f_low, f_upp, fmean, y)
   lb <- min(f_low, f_upp, fmean, y)
   
-  if (return.plot){
+  if (return.plot) {
     par(mfrow = c(1, 1))
     par(mar = c(2.1, 2.1, 2.1, 1.1)) # adapt margins
     plot(x, y, pch = '*', lwd = 2, lty = 1, col = 'black',
