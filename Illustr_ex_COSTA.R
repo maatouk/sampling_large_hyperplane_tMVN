@@ -183,7 +183,7 @@ if (synthetic == 'yes') {
   l <- l_est(nu, range = c(0, 1), 0.2) # length-scale
   u <- seq(0, 1, length = (M * N1))
   tol <- 1e-12
-  # delta <- 1 / (M * N1 - 1)
+  # delta <- 1/(M * N1 - 1)
   ### data
   ntot <- 50 # nb of total data
   ntr <- 30 # nb training data
@@ -194,7 +194,7 @@ if (synthetic == 'yes') {
   }
   ## split data
   set.seed(123)
-  xtot <- runif(ntot, 0, 1)
+  xtot <- runif(ntot, min = 0, max = 1)
   ytot <- f(xtot) + rnorm(ntot, 0, sd = sigN)
   timeLS <- rep(NA, trial) # run time Large scale
   timeMUR <- rep(NA, trial) # run time naive MUR
