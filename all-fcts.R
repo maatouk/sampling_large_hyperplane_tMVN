@@ -12,7 +12,7 @@ k <- function(h, nu, l) {
   matern.covariance(h, sqrt(2 * nu)/l, nu = nu, sigma = 1)
 }
 
-## kernel covariance matrix
+## Matern kernel covariance matrix
 kMat <- function(knot, nu, l) {
   k(outer(knot, knot, '-'), nu, l)
 }
