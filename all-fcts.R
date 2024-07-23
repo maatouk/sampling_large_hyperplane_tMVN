@@ -125,7 +125,7 @@ l_est <- function(nu, range, val) {
 ################ LS KLE one sample #################
 ####################################################
 LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS) {
-  if (missing(sseedLS)
+  if (missing(sseedLS))
       set.seed(sseedLS)
   if (missing(tol)) 
     tol <- 1e-8
