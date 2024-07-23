@@ -124,28 +124,29 @@ l_est <- function(nu, range, val) {
 ####################################################
 ################ LS KLE one sample #################
 ####################################################
-LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS = 1) {
-  if (missing(tol)) {
+LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS) {
+  if (missing(sseedLS)
+      set.seed(sseedLS)
+  if (missing(tol)) 
     tol <- 1e-8
-  }
-  if (missing(M)) {
+  if (missing(M))
     M <- 1
-  }
   if (M == 0)
     stop("M cannot be zero")
   if (N1 == 0)
     stop("N1 cannot be zero")
-  if (length(u) != M*N1)
-    stop("The length of the vector u must be M times N1")
+  if (length(u) != M * N1)
+    stop("Error: the length of the vector \'u\' must be \'M\' times \'N1\'")
+      
   u1 <- u[1 : N1]
   u2 <- u[(N1 + 1) : (2 * N1)]
   Gamma11 <- tau * kMat(u1, nu, l) + tol * diag(N1)
-  set.seed(sseedLS)
-  if (M == 1) {
+      
+  if (M == 1) 
     return(as.vector(mvtnorm::rmvnorm(n = 1, mean = rep(0, N1), sigma = Gamma11, method = 'chol')))
-  }
   else 
     Gamma12 <- tau * k(outer(u1, u2, '-'), nu, l)
+      
   eig11 <- eigen(Gamma11)
   value11 <- eig11$values[1 : p]
   vector11 <- eig11$vectors[, 1 : p]
@@ -175,30 +176,29 @@ LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS = 1) {
 ####################################################
 
 LS.KLE_v <- function(nbsim, u, N1, p, M, nu, l, tau, tol) {
-  if (missing(nbsim)) {
+  if (missing(nbsim)) 
     nbsim <- 10
-  }
-  if (missing(tol)) {
+  if (missing(tol)) 
     tol <- 1e-8
-  }
-  if (missing(M)) {
+  if (missing(M)) 
     M <- 1
-  }
   if (M == 0)
     stop("M cannot be zero")
   if (N1 == 0)
     stop("N1 cannot be zero")
   if (length(u) != M * N1)
     stop("The length of the vector u must be M times N1")
+  
   u1 <- u[1 : N1]
   u2 <- u[(N1 + 1) : (2 * N1)]
   # delta <- 1 / (M * (N1 - 1))
   Gamma11 <- tau * kMat(u1, nu, l) + tol * diag(N1)
-  if (M == 1) {
+  
+  if (M == 1) 
     return(as.vector(mvtnorm::rmvnorm(n = 1, mean = rep(0, N1), sigma = Gamma11, method = 'chol')))
-  }
   else 
     Gamma12 <- tau * k(outer(u1, u2, '-'), nu, l)
+  
   eig11 <- eigen(Gamma11)
   value11 <- eig11$values[1 : p]
   vector11 <- eig11$vectors[, 1 : p]
