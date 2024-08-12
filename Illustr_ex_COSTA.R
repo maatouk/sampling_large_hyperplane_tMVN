@@ -42,9 +42,9 @@ if (KLEvsLS.KLE == 'yes') {
     print(j)
     for (i in 1 : length(N)) {
       u <- seq(0, 1, length = N[i])
-      timeLS.KLE[j,i] <- system.time(LS.KLE(u = u, N1 = N1, p = p, M = M[i],
+      timeLS.KLE[j, i] <- system.time(LS.KLE(u = u, N1 = N1, p = p, M = M[i],
                                             nu = nu, l = l, tau = 1, tol = 1e-12, sseedLS = i))[3]
-      timeKLE[j,i] <- system.time(KLE(u, p, nu, l))[3]
+      timeKLE[j, i] <- system.time(KLE(u, p, nu, l))[3]
     }
   } 
   averageLS.KLE <- colMeans(timeLS.KLE)
