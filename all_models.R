@@ -22,13 +22,13 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
   # OUTPUT: Posterior samples on nu,l,xi,tau,sig and fhat with posterior mean, 95% CI of fhat
   
   if (length(y) != length(x))
-    stop("y and x should be of same length!")
+    stop("Error: \'y\' and \'x\' should be of same length !")
   n <- length(y)
   N <- M*N1
   y <- y[order(x)]
   x <- sort(x)
   delta <- (max(x) - min(x)) / (N - 1)
-  my_knots <- seq(min(x), max(x), by = delta)
+  my_knots <- seq(from = min(x), to = max(x), by = delta)
   X <- fctv(x, my_knots, M, N1)
   
   if (missing(return.plot))
@@ -77,7 +77,7 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
     sig.in <- 1
   
   if (missing(xi.fix) && missing(xi.in))
-    xi.in <- mvrnorm(1, rep(0,N), K)
+    xi.in <- mvrnorm(1, rep(0, N), K)
   
   tau <- tau.in
   sig <- sig.in
@@ -85,10 +85,10 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
   
   em <- mcmc + brn
   ef <- mcmc / thin
-  xi_sam <- matrix(NA, nrow = N, ncol = ef)
+  xi_sam <- matrix(data = NA, nrow = N, ncol = ef)
   tau_sam <- rep(NA, ef)
   sig_sam <- rep(NA, ef)
-  fhat_sam <- matrix(NA, nrow = n, ncol = ef)
+  fhat_sam <- matrix(data = NA, nrow = n, ncol = ef)
   
   if (verbose)
     print("MCMC sample draws:")
@@ -164,7 +164,10 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
   return(list("time" = tm, "xi_sam" = xi_sam, "sig_sam" = sig_sam, "tau_sam" = tau_sam,
               "fhat_sam" = fhat_sam, "fmean" = fmean, "f_low" = f_low, "f_upp" = f_upp))
 }
+#####################################################################
 
+
+               
                
 ## end
 
