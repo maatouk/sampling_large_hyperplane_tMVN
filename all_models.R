@@ -24,7 +24,7 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
   if (length(y) != length(x))
     stop("Error: \'y\' and \'x\' should be of same length !")
   n <- length(y)
-  N <- M*N1
+  N <- M * N1
   y <- y[order(x)]
   x <- sort(x)
   delta <- (max(x) - min(x)) / (N - 1)
