@@ -77,7 +77,7 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
     sig.in <- 1
   
   if (missing(xi.fix) && missing(xi.in))
-    xi.in <- mvrnorm(1, rep(0, N), K)
+    xi.in <- mvrnorm(n = 1, mu = rep(0, N), Sigma = K)
   
   tau <- tau.in
   sig <- sig.in
