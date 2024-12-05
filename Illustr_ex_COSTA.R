@@ -54,7 +54,7 @@ if (KLEvsLS.KLE == 'yes') {
   lines(N, averageKLE, type = 'l', lty = 2, lwd = 2)
   legend(200, 0.9, c('KLE', 'LS.KLE'),
          lty = c(2, 1), cex = 1,
-         text.font = 2, box.lty = 0,lwd = 2)
+         text.font = 2, box.lty = 0, lwd = 2)
   ##############################################################
 }
 
@@ -88,7 +88,7 @@ if (WCvsLS.KLEN == 'yes') {
   plot(N, averageLS, type = 'l', lwd = 2,
        ylim = range(averageLS, averageWC), xlab = '', ylab = '')
   # mtext(parse(text = smooth))
-  title(xlab = 'Dimension', ylab = 'Average Time (s)',line = 2)
+  title(xlab = 'Dimension', ylab = 'Average Time (s)', line = 2)
   mtext(text = c('smoothness parameter'), side = 3, line = 0.6, cex = 1)
   mtext(bquote(nu == .(nu)), side = 3, line = -0.1, cex = 1)
   lines(N, averageWC, type = 'l', lty = 2, lwd = 2)
@@ -123,7 +123,7 @@ if (WCvsLS.KLEnu == 'yes') {
   plot(nu, averageLS, type = 'l', lwd = 2,
        ylim = range(averageLS, averageWC),
        xlab = '', ylab = '')
-  title(ylab = 'Average Time (s)',line = 2)
+  title(ylab = 'Average Time (s)', line = 2)
   mtext(text = expression("smoothness parameter" ~ nu),
         side = 1, line = 2)
   mtext(text =  paste("Dimension N = ", N), side = 3, line = 0.2, cex = 1)
@@ -194,8 +194,8 @@ if (synthetic == 'yes') {
   }
   ## split data
   set.seed(123)
-  xtot <- runif(ntot, min = 0, max = 1)
-  ytot <- f(xtot) + rnorm(ntot, 0, sd = sigN)
+  xtot <- runif(n = ntot, min = 0, max = 1)
+  ytot <- f(xtot) + rnorm(n = ntot, mean = 0, sd = sigN)
   timeLS <- rep(NA, trial) # run time Large scale
   timeMUR <- rep(NA, trial) # run time naive MUR
   print("MCMC replicates:")
