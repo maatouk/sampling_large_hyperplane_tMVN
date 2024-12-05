@@ -31,7 +31,7 @@ if (KLEvsLS.KLE == 'yes') {
   par(mar = c(3.1, 3.1, 1.1, 1.1)) # adapt margins
   nu <- 2.5 # smoothness parameter Matern Kernel (MK)
   l <- l_est(nu, c(0, 1), 0.05) # length-scale parameter MK
-  N <- seq(100, 1000, length = 10) # size of the MVN
+  N <- seq(from = 100, to = 1000, length = 10) # size of the MVN
   N1 <- 50
   M <- N / N1
   p <- 30
@@ -41,7 +41,7 @@ if (KLEvsLS.KLE == 'yes') {
   for (j in 1 : trial) {
     print(j)
     for (i in 1 : length(N)) {
-      u <- seq(0, 1, length = N[i])
+      u <- seq(from = 0, to = 1, length = N[i])
       timeLS.KLE[j, i] <- system.time(LS.KLE(u = u, N1 = N1, p = p, M = M[i],
                                             nu = nu, l = l, tau = 1, tol = 1e-12, sseedLS = i))[3]
       timeKLE[j, i] <- system.time(KLE(u, p, nu, l))[3]
@@ -67,7 +67,7 @@ if (WCvsLS.KLEN == 'yes') {
   par(mar = c(3.1, 3.1, 1.4, 1.1)) # adapt margins
   nu <- 0.5 # smoothness parameter Matern Kernel (MK)
   l <- 0.4 # length-scale parameter MK
-  N <- seq(1000, 50000, length = 11) # sizes of MVN
+  N <- seq(from = 1000, to = 50000, length = 11) # sizes of MVN
   N1 <- 100 # size of 1st subdomain
   M <- N / N1
   p <- 30 # truncation expansion parameter
@@ -77,7 +77,7 @@ if (WCvsLS.KLEN == 'yes') {
   for (j in 1 : trial) {
     print(j)
     for (i in 1 : length(N)) {
-      u <- seq(0, 1, length = N[i])
+      u <- seq(from = 0, to = 1, length = N[i])
       timeLS[j, i] <- system.time(LS.KLE(u, N1 = N1, p, M = M[i], nu = nu, l = l, tau = 1, tol = 1e-12, sseedLS = i))[3]
       timeWC[j, i] <- system.time(samp.WC(knot = u, nu = nu, l = l, tausq = 1, sseedWC = i))[3]
     }
@@ -101,7 +101,7 @@ if (WCvsLS.KLEN == 'yes') {
 if (WCvsLS.KLEnu == 'yes') {
   ### running time as a fct of the smoothness parameter nu 
   par(mar = c(3.1, 3.1, 1.1, 1.1)) # adapt margins
-  nu <- seq(0.5, 1.5, length = 10) # smoothness parameter
+  nu <- seq(from = 0.5, to = 1.5, length = 10) # smoothness parameter
   N <- 10000 # sizes of MVN
   N1 <- 100 # size of 1st subdomain
   M <- N / N1 # nb of subdomains
@@ -110,7 +110,7 @@ if (WCvsLS.KLEnu == 'yes') {
   l <- 0.4 # length-scale parameter MK
   timeWC <- matrix(NA, nrow = length(nu), ncol = trial)
   timeLS <- matrix(NA, nrow = length(nu), ncol = trial)
-  u <- seq(0, 1, length = N)
+  u <- seq(from = 0, to = 1, length = N)
   for (i in 1 : length(nu)) {
     print(i)
     for (j in 1 : trial) {
@@ -145,14 +145,14 @@ if (LS.KLE10M == 'yes') {
   l <- 0.2 # length-scale parameter MK
   N1 <- 100 # size of 1st subdomain
   p <- 30
-  M <- seq(1000, 100000, length = 10) # nbs of blocks
+  M <- seq(from = 1000, to = 100000, length = 10) # nbs of blocks
   N <- M * N1 # sizes of the MVN
   trial <- 5
   timeLS <- matrix(NA, nrow = trial, ncol = length(M))
   for (i in 1 : trial) {
     print(i)
     for (j in 1 : length(M)) {
-      u <- seq(0, 1, length = N[j])
+      u <- seq(from = 0, to = 1, length = N[j])
       timeLS[i, j] <- system.time(LS.KLE(u, N1, p, M = M[j], nu = nu, l, tau = 1, tol = 1e-12, sseedLS = j))[3]
     }
   }
@@ -181,7 +181,7 @@ if (synthetic == 'yes') {
   trial <- 5
   nu <- 2.5 # smoothness parameter Matern Kernel MK 
   l <- l_est(nu, range = c(0, 1), 0.2) # length-scale
-  u <- seq(0, 1, length = (M * N1))
+  u <- seq(from = 0, to = 1, length = (M * N1))
   tol <- 1e-12
   # delta <- 1/(M * N1 - 1)
   ### data
@@ -216,7 +216,7 @@ if (synthetic == 'yes') {
   par(mar = c(3.1, 3.1, 1.9, 1.1)) # adapt margins
   post_samp_LS <- LS.KLE_MUR_v(nbsim, u, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
   post_samp_MUR <- MUR(nbsim, u, A, y = ytr, nu, l, sigN, tol)
-  t <- seq(0, 1, length = 500)
+  t <- seq(from = 0, to = 1, length = 500)
   Y_LS <- fctv(t, u, M, N1) %*% post_samp_LS
   Y_MUR <- fctv(t, u, M, N1) %*% post_samp_MUR
   tmp_LS <- apply(Y_LS, 1, quantile, probs = c(0.025, 0.5, 0.975))
@@ -277,7 +277,7 @@ if (ageincome == 'yes') {
   l <- 30 # length-scale parameter
   tol <- 1e-12
   sigN <- 1 # noise sd
-  my_knots <- seq(min(xtot), max(xtot), length = (M*N1))
+  my_knots <- seq(from = min(xtot), to = max(xtot), length = (M*N1))
   ## split data
   timeLS <- rep(NA, trial) # run time Large scale
   timeMUR <- rep(NA, trial) # run time naive MUR
@@ -295,7 +295,7 @@ if (ageincome == 'yes') {
   }
   ## Illustration
   par(mar = c(3.1, 3.1, 1.9, 1.1)) # adapt margins
-  t <- seq(min(xtot), max(xtot), length = 100)
+  t <- seq(from = min(xtot), to = max(xtot), length = 100)
   post_samp_LS <- LS.KLE_MUR_v(nbsim, u = my_knots, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
   post_samp_MUR <- MUR(nbsim, u = my_knots, A, y = ytr, nu, l, sigN, tol)
   Y_LS <- fctv(t, u = my_knots, M, N1) %*% post_samp_LS
@@ -356,7 +356,7 @@ if (fossil == 'yes') {
   l <- l_est(nu, range(xtot), 0.5) # length-scale parameter
   tol <- 1e-12
   sigN <- sd(ytot) # standard deviation
-  my_knots <- seq(min(xtot), max(xtot), length = (M * N1))
+  my_knots <- seq(from = min(xtot), to = max(xtot), length = (M * N1))
   ## split data
   timeLS <- rep(NA, trial) # run time Large scale
   timeMUR <- rep(NA, trial) # run time naive MUR
@@ -377,7 +377,7 @@ if (fossil == 'yes') {
   par(mar = c(3.1, 3.1, 1.9, 1.1)) # adapt margins
   post_samp_LS <- LS.KLE_MUR_v(nbsim, u = my_knots, A, y = ytr, N1, p, M, nu, l, sigN, tausq = 1, tol)
   post_samp_MUR <- MUR(nbsim, u = my_knots, A, y = ytr, nu, l, sigN, tol)
-  t <- seq(min(xtot), max(xtot), length = 100)
+  t <- seq(from = min(xtot), to = max(xtot), length = 100)
   Y_LS <- fctv(t, u = my_knots, M, N1) %*% post_samp_LS
   Y_MUR <- fctv(t, u = my_knots, M, N1) %*% post_samp_MUR
   tmp_LS <- apply(Y_LS, 1, quantile, probs = c(0.025, 0.5, 0.975))
