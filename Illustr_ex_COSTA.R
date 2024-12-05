@@ -36,8 +36,8 @@ if (KLEvsLS.KLE == 'yes') {
   M <- N / N1
   p <- 30
   trial <- 25
-  timeKLE <- matrix(NA, nrow = trial, ncol = length(N))
-  timeLS.KLE <- matrix(NA, nrow = trial, ncol = length(N))
+  timeKLE <- matrix(data = NA, nrow = trial, ncol = length(N))
+  timeLS.KLE <- matrix(data = NA, nrow = trial, ncol = length(N))
   for (j in 1 : trial) {
     print(j)
     for (i in 1 : length(N)) {
@@ -72,8 +72,8 @@ if (WCvsLS.KLEN == 'yes') {
   M <- N / N1
   p <- 30 # truncation expansion parameter
   trial <- 25
-  timeWC <- matrix(NA, nrow = trial, ncol = length(N))
-  timeLS <- matrix(NA, nrow = trial, ncol = length(N))
+  timeWC <- matrix(data = NA, nrow = trial, ncol = length(N))
+  timeLS <- matrix(data = NA, nrow = trial, ncol = length(N))
   for (j in 1 : trial) {
     print(j)
     for (i in 1 : length(N)) {
@@ -108,8 +108,8 @@ if (WCvsLS.KLEnu == 'yes') {
   p <- 30 # expansion retains parameter
   trial <- 25 # nb of replicates
   l <- 0.4 # length-scale parameter MK
-  timeWC <- matrix(NA, nrow = length(nu), ncol = trial)
-  timeLS <- matrix(NA, nrow = length(nu), ncol = trial)
+  timeWC <- matrix(data = NA, nrow = length(nu), ncol = trial)
+  timeLS <- matrix(data = NA, nrow = length(nu), ncol = trial)
   u <- seq(from = 0, to = 1, length = N)
   for (i in 1 : length(nu)) {
     print(i)
@@ -148,7 +148,7 @@ if (LS.KLE10M == 'yes') {
   M <- seq(from = 1000, to = 100000, length = 10) # nbs of blocks
   N <- M * N1 # sizes of the MVN
   trial <- 5
-  timeLS <- matrix(NA, nrow = trial, ncol = length(M))
+  timeLS <- matrix(data = NA, nrow = trial, ncol = length(M))
   for (i in 1 : trial) {
     print(i)
     for (j in 1 : length(M)) {
