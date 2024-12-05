@@ -28,11 +28,11 @@ hi <- function(x, u, i) {
   delta <- (max(u) - min(u)) / (length(u) - 1)
   h((x - u[i]) / delta)
 }
-##############################################
+#####################################################
 
-##############################################
-####### function of design matrix ############
-##############################################
+#####################################################
+########### function of design matrix ###############
+#####################################################
 fctv <- function(x, u, M, N1) {
   n <- length(x)
   v <- matrix(NA, nrow = n, ncol = (M * N1))
@@ -41,7 +41,7 @@ fctv <- function(x, u, M, N1) {
   }
   return(v)
 }
-####################################################
+#####################################################z
 
 
 
@@ -60,7 +60,7 @@ KLE <- function(u, p, nu, l, tol) {
   eta <- rnorm(p)
   return(as.vector(vector %*% (sqrt(value) * eta)))
 }
-#################################################
+#####################################################
 
 
 
@@ -79,15 +79,15 @@ KLE_v <- function(nbsim, u, p, nu, l, tol) {
   eta <- matrnorm(p, nbsim)
   return(vector %*% (sqrt(value) * eta))
 }
-###################################################
+#####################################################
 
 
 
 
 
-####################################################
-######### naive Matheron's update rule #############
-####################################################
+#####################################################
+######### naive Matheron's update rule ##############
+#####################################################
 MUR <- function(nbsim, u, A, y, nu, l, sigN, tol) {
   n <- length(y)
   N <- length(u)
@@ -97,11 +97,12 @@ MUR <- function(nbsim, u, A, y, nu, l, sigN, tol) {
   GA <- Gamma %*% t(A)
   return(f + GA %*% chol2inv(chol(A %*% GA + sigN^2 * diag(n))) %*% (y - A %*% f))
 }
+#####################################################
 
 
-####################################################
-####### function for length-scale estimating #######
-####################################################
+#####################################################
+####### function for length-scale estimating ########
+#####################################################
 # function for uniroot:
 fl <- function(l, para) { 
   # para[1] = x, para[2] = y and para[3] = nu of MK : Matern kernel function
@@ -109,6 +110,9 @@ fl <- function(l, para) {
   a <- k(abs(para[1] - para[2]), para[3], l)
   return(a - para[4])
 }
+#####################################################
+
+
 
 
 l_est <- function(nu, range, val) {
@@ -118,12 +122,12 @@ l_est <- function(nu, range, val) {
   rl <- uniroot(f = fl, interval = c(0.000001, 100000), para)
   return(rl$root)
 }
-####################################################
+#####################################################
 
 
-####################################################
-################ LS KLE one sample #################
-####################################################
+#####################################################
+################ LS KLE one sample ##################
+#####################################################
 LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS) {
   if (missing(sseedLS))
       set.seed(sseedLS)
@@ -165,15 +169,15 @@ LS.KLE <- function(u, N1, p, M, nu, l, tau, tol, sseedLS) {
   }
   return(as.vector(t(f)))
 }
-####################################################
+#####################################################
 
 
 
 
 
-####################################################
-########## LS KLE more than one sample #############
-####################################################
+#####################################################
+########## LS KLE more than one sample ##############
+#####################################################
 
 LS.KLE_v <- function(nbsim, u, N1, p, M, nu, l, tau, tol) {
   if (missing(nbsim)) 
@@ -217,12 +221,13 @@ LS.KLE_v <- function(nbsim, u, N1, p, M, nu, l, tau, tol) {
   }
   return(do.call(rbind, f))
 }
-####################################################
+#####################################################
 
 
-####################################################
-################### LS KLE MUR #####################
-####################################################
+
+#####################################################
+################### LS KLE MUR ######################
+#####################################################
 ## one posterior sample path
 LS.KLE_MUR <- function(u, f, A, y, N1, p, M, nu, l, tausq, sigN) {
   n <- length(y)
@@ -232,13 +237,13 @@ LS.KLE_MUR <- function(u, f, A, y, N1, p, M, nu, l, tausq, sigN) {
   invAGA <- chol2inv(cholesky(A %*% GA + sigN^2 * diag(n)))
   return(f + GA %*% invAGA %*% (y - A %*% f))
 }
-##################################################
+#####################################################
 
 
 
-####################################################
-###### LS KLE MUR more than one sample path ########
-####################################################
+#####################################################
+###### LS KLE MUR more than one sample path #########
+#####################################################
 LS.KLE_MUR_v <- function(nbsim, u, A, y, N1, p, M, nu, l, sigN, tausq, tol) {
   n <- length(y)
   f <- LS.KLE_v(nbsim, u, N1, p, M, nu, l, tau = tausq, tol)
@@ -246,13 +251,13 @@ LS.KLE_MUR_v <- function(nbsim, u, A, y, N1, p, M, nu, l, sigN, tausq, tol) {
   GA <- Gamma %*% t(A)
   return(f + GA %*% chol2inv(cholesky(A %*% GA + sigN^2 * diag(n))) %*% (y - A %*% f))
 }
-####################################################
+#####################################################
 
 
 
-####################################################
-################# samp WC function #################
-####################################################
+#####################################################
+################# samp WC function ##################
+#####################################################
 ### Functions related to Wood and Chan algorithm of drawing samples
 ## Order of the circulant matrix:
 ## minimum value of g and m so that G can be embedded into C
@@ -263,7 +268,7 @@ min_g <- function(knot) {
   return("g" = g)
 }
 
-# forming the circulant matrix:
+## forming the circulant matrix:
 circulant <- function(x) {
   n <- length(x)
   mat <- matrix(0, nrow = n, ncol = n)
@@ -272,6 +277,8 @@ circulant <- function(x) {
   }
   return(mat)
 }
+#####################################################
+
 
 
 ## Function for forming the vector of circulant matrix:
@@ -288,10 +295,13 @@ circ_vec <- function(knot, g, nu, l, tausq) {
   x <- (tausq * MK(cj, 0, l, nu))
   return(x)
 }
+#####################################################
 
 
+#####################################################
 ## Function for finding a g such that C is nnd:
 ## without forming the circulant matrix and without computing eigen values:
+#####################################################
 C.eval <- function(knot, g, nu, l, tausq) {
   vec <- circ_vec(knot, g, nu, l, tausq)
   val <- fft(vec) # eigenvalues will be real as the circulant matrix formed by the 
@@ -299,6 +309,7 @@ C.eval <- function(knot, g, nu, l, tausq) {
   ev <- min(Re(val))
   return(list("vec" = vec, "min.eig.val" = ev))
 }
+#####################################################
 
 
 nnd_C <- function(knot, g, nu, l, tausq) {
@@ -311,8 +322,11 @@ nnd_C <- function(knot, g, nu, l, tausq) {
     nnd_C(knot, g, nu, l, tausq)
   }
 }
+#####################################################
 
-# computing the eigen values of C using FFT:
+
+
+## computing the eigen values of C using FFT:
 eigval <- function(knot, nu, l, tausq) {
   g <- min_g(knot)
   c.j <- nnd_C(knot, g, nu, l, tausq)$cj
@@ -322,11 +336,15 @@ eigval <- function(knot, nu, l, tausq) {
   else
     stop("nnd condition is NOT satisfied!!!")
 }
+#####################################################
 
 
-#################################################################
-########## Samples drawn using Wood and Chan Algorithm ##########
-#################################################################
+
+
+
+#####################################################
+### Samples drawn using Wood and Chan Algorithm #####
+#####################################################
 samp.WC <- function(knot, nu, l, tausq, sseedWC = 1) {
   N <- length(knot)
   lambda <- eigval(knot, nu, l, tausq)
@@ -347,7 +365,7 @@ samp.WC <- function(knot, nu, l, tausq, sseedWC = 1) {
   samp.vec <- Re(samp[1 : N])
   return(samp.vec)
 }
-####################################################
+#####################################################
 
 
 
