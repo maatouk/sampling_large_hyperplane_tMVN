@@ -1,14 +1,15 @@
 #####################################################################
-##### Function for MCMC samples using LS KLE algo & MUR #############
+##### Function for posterior samples using LS KLE algo & MUR ########
 #####################################################################
 
+setwd("~/Documents/Recherche/Article_high-dimensional-hyperplaneMVN_2021/High dimension code/Official_codes/GitHub/sampling_large_hyperplane_tMVN")
 source('all-fcts.R')
 
 
 
 
 ### Function for drawing posterior samples using LS and MUR without hyperparameter updates (nu & ell):
-########### Nonparametric functions estimation 
+### Nonparametric functions estimation 
 LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, xi.in, tau.in,
                              tau.fix, sig.fix, xi.fix, sseed, verbose, return.plot, tol) {
   # y:Response variable; x: vector to form design matrix \Psi (n X N+1)
@@ -19,7 +20,7 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
   # verbose : logical; if TRUE, prints currnet status; default is TRUE
   # return.plot : logical; if true a plot of estimate with 95% CI is returned; default is TRUE
   
-  # OUTPUT: Posterior samples on nu,l,xi,tau,sig and fhat with posterior mean, 95% CI of fhat
+  # OUTPUT: Posterior samples on nu, l, xi_sam, tau_sam, sig_sam and fhat with posterior mean, 95% CI of fhat
   
   if (length(y) != length(x))
     stop("Error: \'y\' and \'x\' should be of same length !")
@@ -153,7 +154,7 @@ LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, 
   
   if (return.plot) {
     par(mfrow = c(1, 1))
-    par(mar = c(2.1, 2.1, 2.1, 1.1)) # adapt margins
+    par(mar = c(bottom = 2.1, left = 2.1, top = 2.1, right = 1.1)) # adapt margins
     plot(x, y, pch = '*', lwd = 2, lty = 1, col = 'black',
          ylim = range(ub, lb), xlab = '', ylab = '')
     polygon(c(x, rev(x)), y = c(f_low, rev(f_upp)), border = F, col = 'gray')
