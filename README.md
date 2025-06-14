@@ -10,7 +10,7 @@ This repository includes R code for sampling from a high-dimensional hyperplane-
 
 # Description of the associated R files:
 1. 'all_models.R' file contains two models that implement the large hyperplane-truncated multivariate normal distribution with and without hyperparameters updates.
-2. 'Illustr_ex_COSTA.R' file includes all synthetic and real data examples featured in Maatouk et al. (2023).
+2. 'Illustr_ex_COSTA.R' file includes all synthetic and real data examples featured in Maatouk et al. (2024).
 3. 'all-fcts.R' file encompasses all the fundamental functions required to implement our approach. It includes:
    
 i. The naive Matheron's update rule (MUR).
