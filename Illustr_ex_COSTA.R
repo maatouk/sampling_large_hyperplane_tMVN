@@ -18,8 +18,8 @@ KLEvsLS.KLE = ''
 WCvsLS.KLEN = ''
 WCvsLS.KLEnu = ''
 LS.KLE10M = ''
-synthetic = ''
-ageincome = 'yes'
+synthetic = 'yes'
+ageincome = ''
 fossil = ''
 
 
@@ -44,7 +44,7 @@ if (KLEvsLS.KLE == 'yes') {
     for (i in 1 : length(N)) {
       u <- seq(from = 0, to = 1, length = N[i])
       timeLS.KLE[j, i] <- system.time(LS.KLE(u = u, N1 = N1, p = p, M = M[i],
-                                            nu = nu, l = l, tau = 1, tol = 1e-12, sseedLS = i))[3]
+                                             nu = nu, l = l, tau = 1, tol = 1e-12, sseedLS = i))[3]
       timeKLE[j, i] <- system.time(KLE(u, p, nu, l))[3]
     }
   } 
