@@ -29,6 +29,6 @@ vi. samp.WC for generating Gaussian priors using the Fast Fourier Transform meth
 
 
 # References
-Maatouk, H. and Rullière, D. and Bay, X. (2023). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
+Maatouk, H. and Rullière, D. and Bay, X. (2024). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
 
 Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". Journal of Computational and Graphical Statistics. [doi](https://www.jstor.org/stable/1390903)   
