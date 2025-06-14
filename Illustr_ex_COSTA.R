@@ -6,7 +6,8 @@
 ## Two real data studies (age-income and fossil) with fixed hyperparameters
 
 
-
+setwd("~/Documents/Recherche/Article_high-dimensional-hyperplaneMVN_2021/High dimension code/Official_codes/GitHub/sampling_large_hyperplane_tMVN")
+source('all_models.R')
 source('all-fcts.R')
 
 
@@ -14,11 +15,11 @@ source('all-fcts.R')
 ## put 'yes' between quotations
 
 KLEvsLS.KLE = ''
-WCvsLS.KLEN = 'yes'
+WCvsLS.KLEN = ''
 WCvsLS.KLEnu = ''
 LS.KLE10M = ''
 synthetic = ''
-ageincome = ''
+ageincome = 'yes'
 fossil = ''
 
 
