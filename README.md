@@ -28,6 +28,12 @@ vi. samp.WC for generating Gaussian priors using the Fast Fourier Transform meth
    For more details on the codes or the functions, refer to the associated R files.
 
 
+# Authour:
+Hassan Maatouk (LAMPS, UPVD).
+
+# Maintainer: 
+Hassan Maatouk, hassan.maatouk@univ-perp.fr
+
 # References:
 Maatouk, H. and Rullière, D. and Bay, X. (2024). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
 
