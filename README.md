@@ -1,5 +1,5 @@
 # Sampling large hyperplane-truncated MVN distrbution using Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR):
-This repository includes R code for sampling from a high-dimensional hyperplane-truncated multivariate normal distribution using the Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR), see Maatouk et al. (2024). Additionally, it provides the "LS.KLE" function for generating a very large Gaussian vector extracted from a stationary Gaussian process. Using this function, a Gaussian vector of size 1,000,000 can be generated in a few seconds.
+This repository includes R code for sampling from a high-dimensional hyperplane-truncated multivariate normal distribution using the Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR), see Maatouk et al. (2024a,b). Additionally, it provides the "LS.KLE" function for generating a very large Gaussian vector extracted from a stationary Gaussian process. Using this function, a Gaussian vector of size 1,000,000 can be generated in a few seconds.
 
 
 # Illustrative examples:
@@ -35,6 +35,8 @@ Hassan Maatouk (CY-Tech, CY Cergy Paris Université).
 Hassan Maatouk, hmk@cy-tech.fr
 
 # References:
-Maatouk, H. and Rullière, D. and Bay, X. (2024). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
+Maatouk, H., Rullière, D., and Bay, X. (2024a). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
+
+Maatouk, H., Rullière, D., Bay, X. (2024b). Large Scale Gaussian Processes with Matheron's Update Rule and Karhunen-Loève Expansion. In: Hinrichs, A., Kritzer, P., Pillichshammer, F. (eds) Monte Carlo and Quasi-Monte Carlo Methods. MCQMC 2022. Springer Proceedings in Mathematics & Statistics, vol 460. Springer, Cham.
 
 Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". Journal of Computational and Graphical Statistics. [doi](https://www.jstor.org/stable/1390903)   
