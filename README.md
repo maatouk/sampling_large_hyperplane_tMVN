@@ -29,7 +29,7 @@ vi. samp.WC for generating Gaussian priors using the Fast Fourier Transform meth
 
 
 # Author:
-Hassan Maatouk (CY-Tech, CY Cergy Paris Université).
+Hassan Maatouk (CY-Tech, CY Cergy Paris Université, France).
 
 # Maintainer: 
 Hassan Maatouk, hmk@cy-tech.fr
