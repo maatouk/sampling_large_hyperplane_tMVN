@@ -1,15 +1,15 @@
-# Sampling large hyperplane‑truncated multivariate normal distributions:
-This repository includes R code for sampling from a high-dimensional hyperplane-truncated multivariate normal distribution using the Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR), see Maatouk et al. (2024a,b). Additionally, it provides the "LS.KLE" function for generating a very large Gaussian vector extracted from a stationary Gaussian process. Using this function, a Gaussian vector of size 1,000,000 can be generated in a few seconds.
+# Sampling large hyperplane‑truncated multivariate normal distributions
+This repository includes R code for sampling from a high-dimensional hyperplane-truncated multivariate normal distribution using the Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR), see Maatouk et al. (2024a,b). Additionally, it provides the _LS.KLE_ function for generating a very large Gaussian vector extracted from a stationary Gaussian process. Using this function, a Gaussian vector of size 1,000,000 can be generated in a few seconds.
 
 ⚠️ **Citation:** This repository should be cited as supplementary material to Maatouk et al. (2024a).
 
-# Illustrative examples:
+# Illustrative examples
 [MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/Matern3split5sim-eps-converted-to.pdf): Five GP sample paths when the domain is split into three subdomains. Dashed (resp. solid) curves represent the paths after (resp. before) conditioning. 
 
-[MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/FFTvsLSKLE-eps-converted-to.pdf): Average time of sampling a MVN over 25 replicates as a function of the dimension N. The proposed approach, LS.KLE, has been compared to the Fast Fourier Transform (FFT) developed in Wood and Chan (1994) 
+[MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/FFTvsLSKLE-eps-converted-to.pdf): Average time of sampling a MVN over 25 replicates as a function of the dimension N. The proposed approach, LS.KLE, has been compared to the Fast Fourier Transform (FFT) developed in Wood and Chan (1994).
 
 
-# Description of the associated R files:
+# Description of the associated R files
 1. 'all_models.R' file contains two models that implement the large hyperplane-truncated multivariate normal distribution with and without hyperparameters updates.
 2. 'Illustr_ex_COSTA.R' file includes all synthetic and real data examples featured in Maatouk et al. (2024).
 3. 'all-fcts.R' file encompasses all the fundamental functions required to implement our approach. It includes:
@@ -29,15 +29,15 @@ vi. samp.WC for generating Gaussian priors using the Fast Fourier Transform meth
    For more details on the codes or the functions, refer to the associated R files.
 
 
-# Author:
+# Author
 Hassan Maatouk (CY-Tech, CY Cergy Paris Université, France).
 
-# Maintainer: 
+# Maintainer
 Hassan Maatouk, hmk@cy-tech.fr
 
-# References:
-Maatouk, H., Rullière, D., and Bay, X. (2024a). "Sampling large hyperplane‐truncated multivariate normal distributions". _Computational Statistics_, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
+# References
+Maatouk, H., Rullière, D., and Bay, X. (2024a). "Sampling large hyperplane‐truncated multivariate normal distributions". _Computational Statistics_, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7).
 
 Maatouk, H., Rullière, D., Bay, X. (2024b). Large Scale Gaussian Processes with Matheron's Update Rule and Karhunen-Loève Expansion. _In: Hinrichs, A., Kritzer, P., Pillichshammer, F. (eds) Monte Carlo and Quasi-Monte Carlo Methods. MCQMC 2022. Springer Proceedings in Mathematics & Statistics, vol 460. Springer, Cham_.
 
-Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". _Journal of Computational and Graphical Statistics_, 3(4): 409-432. [doi](https://www.jstor.org/stable/1390903)   
+Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". _Journal of Computational and Graphical Statistics_, 3(4): 409-432. [doi](https://www.jstor.org/stable/1390903).
