@@ -36,8 +36,8 @@ Hassan Maatouk (CY-Tech, CY Cergy Paris Université, France).
 Hassan Maatouk, hmk@cy-tech.fr
 
 # References:
-Maatouk, H., Rullière, D., and Bay, X. (2024a). "Sampling large hyperplane‐truncated multivariate normal distributions". Computational Statistics, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
+Maatouk, H., Rullière, D., and Bay, X. (2024a). "Sampling large hyperplane‐truncated multivariate normal distributions". _Computational Statistics_, 39: 1779–1806. [doi](https://link.springer.com/article/10.1007/s00180-023-01416-7)
 
-Maatouk, H., Rullière, D., Bay, X. (2024b). Large Scale Gaussian Processes with Matheron's Update Rule and Karhunen-Loève Expansion. In: Hinrichs, A., Kritzer, P., Pillichshammer, F. (eds) Monte Carlo and Quasi-Monte Carlo Methods. MCQMC 2022. Springer Proceedings in Mathematics & Statistics, vol 460. Springer, Cham.
+Maatouk, H., Rullière, D., Bay, X. (2024b). Large Scale Gaussian Processes with Matheron's Update Rule and Karhunen-Loève Expansion. _In: Hinrichs, A., Kritzer, P., Pillichshammer, F. (eds) Monte Carlo and Quasi-Monte Carlo Methods. MCQMC 2022. Springer Proceedings in Mathematics & Statistics, vol 460. Springer, Cham_.
 
-Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". Journal of Computational and Graphical Statistics. [doi](https://www.jstor.org/stable/1390903)   
+Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". _Journal of Computational and Graphical Statistics_. [doi](https://www.jstor.org/stable/1390903)   
