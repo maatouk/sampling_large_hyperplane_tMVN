@@ -1,6 +1,7 @@
 # Sampling large hyperplane‑truncated multivariate normal distributions:
 This repository includes R code for sampling from a high-dimensional hyperplane-truncated multivariate normal distribution using the Karhunen-Loève expansion (KLE) and Matheron's update rule (MUR), see Maatouk et al. (2024a,b). Additionally, it provides the "LS.KLE" function for generating a very large Gaussian vector extracted from a stationary Gaussian process. Using this function, a Gaussian vector of size 1,000,000 can be generated in a few seconds.
 
+⚠️ **Citation:** This repository should be cited as supplementary material to Maatouk et al. (2024a).
 
 # Illustrative examples:
 [MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/Matern3split5sim-eps-converted-to.pdf): Five GP sample paths when the domain is split into three subdomains. Dashed (resp. solid) curves represent the paths after (resp. before) conditioning. 
