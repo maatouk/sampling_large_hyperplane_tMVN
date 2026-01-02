@@ -201,7 +201,7 @@ if (synthetic == 'yes') {
   timeMUR <- rep(NA, trial) # run time naive MUR
   print("MCMC replicates:")
   for (Q in 1 : trial) {
-    print(Q)
+    print(paste0('replicate = ', Q))
     set.seed(2 * Q)
     ind <- sample.int(ntot, ntr)
     xtr <- xtot[ind]
@@ -283,7 +283,7 @@ if (ageincome == 'yes') {
   timeLS <- rep(NA, trial) # run time Large scale
   timeMUR <- rep(NA, trial) # run time naive MUR
   for (Q in 1 : trial) {
-    print(Q)
+    print(paste0('replicate = ', Q))
     set.seed(2 * Q)
     ind <- sample.int(ntot, ntr)
     xtr <- xtot[ind]
@@ -362,7 +362,7 @@ if (fossil == 'yes') {
   timeLS <- rep(NA, trial) # run time Large scale
   timeMUR <- rep(NA, trial) # run time naive MUR
   for (Q in 1 : trial) {
-    print(Q)
+    print(paste0('replicate = ', Q))
     set.seed(2 * Q)
     ind <- sample.int(ntot, ntr)
     xtr <- xtot[ind]
