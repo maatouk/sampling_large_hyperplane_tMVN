@@ -40,4 +40,4 @@ Maatouk, H., Rullière, D., and Bay, X. (2024a). "Sampling large hyperplane‐tr
 
 Maatouk, H., Rullière, D., Bay, X. (2024b). Large Scale Gaussian Processes with Matheron's Update Rule and Karhunen-Loève Expansion. _In: Hinrichs, A., Kritzer, P., Pillichshammer, F. (eds) Monte Carlo and Quasi-Monte Carlo Methods. MCQMC 2022. Springer Proceedings in Mathematics & Statistics, vol 460. Springer, Cham_.
 
-Wood, A. and Chan, G. (1994). "Simulation of Stationary Gaussian Processes in [0,1]^d". _Journal of Computational and Graphical Statistics_, 3(4): 409-432.
+Wood, A. and Chan, G. (1994). "Simulation of stationary Gaussian processes in [0,1]^d". _Journal of Computational and Graphical Statistics_, 3(4): 409-432.
