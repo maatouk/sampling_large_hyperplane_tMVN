@@ -1,4 +1,6 @@
-library(rSPDE) # matern cov fct
+
+## Required libraries:
+library(rSPDE) # for matern.covariance fct
 library(mvtnorm)
 library(FastGP)
 library(Rfast)
@@ -6,13 +8,13 @@ library(MASS)
 
 
 #####################################################
-## Matern family cov fct with \nu smooth para & \ell length-scale para
+## Matérn family cov fct with \nu smooth para & \ell length-scale para
 #####################################################
 k <- function(h, nu, l) {
   matern.covariance(h, sqrt(2 * nu)/l, nu = nu, sigma = 1)
 }
 
-## Matern kernel covariance matrix
+## Matérn kernel covariance matrix
 kMat <- function(knot, nu, l) {
   k(outer(knot, knot, '-'), nu, l)
 }
