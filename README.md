@@ -3,6 +3,22 @@ This repository includes R code for sampling from a high-dimensional hyperplane-
 
 ⚠️ **Citation:** This repository should be cited as _supplementary material_ to Maatouk et al. (2024a).
 
+
+# Required Libraries
+Before running the scripts, make sure the following R packages are installed:
+- rSPDE
+- mvtnorm
+- FastGP
+- Rfast
+- MASS
+
+  You can install them using:
+
+```{r}
+install.packages(c("rSPDE", "mvtnorm", "FastGP", "Rfast", "MASS"))
+```
+
+
 # Illustrative examples
 [MyImage](https://github.com/maatouk/sampling_large_hyperplane_tMVN/blob/main/Matern3split5sim-eps-converted-to.pdf): Five GP sample paths when the domain is split into three subdomains. Dashed (resp. solid) curves represent the paths after (resp. before) conditioning. 
 
