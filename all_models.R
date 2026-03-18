@@ -10,16 +10,16 @@ source('all-fcts.R')
 ### Nonparametric functions estimation 
 LS.KLE.MUR.function <- function(y, x, N1, p, M, mcmc, brn, thin, nu, l, sig.in, xi.in, tau.in,
                                 tau.fix, sig.fix, xi.fix, sseed, verbose, return.plot, tol) {
-  #' @param y: Response variable 
-  #' @param x: vector to form design matrix \Psi (n X N+1)
-  #' @param N1: the number of knots of 1st subdomain
-  #' @param mcmc,brn,thin: mcmc samples, burning and thinning for MCMC
-  #' @param nu.in,l.in,tau.in,sig.in,xi.in: initial values (supplied by user or the default values)
-  #' @param tau.fix,sig.fix,xi.fix: if fixed values of the parameters are to use
-  #' @param verbose: logical; if TRUE, prints currnet status; default is TRUE
-  #' @param return.plot: logical; if true a plot of estimate with 95% CI is returned; default is TRUE
+  #' @param y Response variable 
+  #' @param x vector to form design matrix \Psi (n X N+1)
+  #' @param N1 the number of knots of 1st subdomain
+  #' @param mcmc,brn,thin mcmc samples, burning and thinning for MCMC
+  #' @param nu.in,l.in,tau.in,sig.in,xi.in initial values (supplied by user or the default values)
+  #' @param tau.fix,sig.fix,xi.fix if fixed values of the parameters are to use
+  #' @param verbose logical; if TRUE, prints currnet status; default is TRUE
+  #' @param return.plot logical; if true a plot of estimate with 95% CI is returned; default is TRUE
   
-  #' @returns OUTPUT: Posterior samples on nu, l, xi_sam, tau_sam, sig_sam and fhat with posterior mean, 95% CI of fhat
+  #' @returns Posterior samples on nu, l, xi_sam, tau_sam, sig_sam and fhat with posterior mean, 95% CI of fhat
   
   if (length(y) != length(x))
     stop("Error: \'y\' and \'x\' should be of same length !")
